@@ -108,12 +108,26 @@ public class TransactionManager {
 					 second = choice.charAt(1);
 					 switch(second) {
 					 	case 'C':
-						 
+						 	String checkingFname = fileScan.next();
+						 	String checkingLname = fileScan.next();
+						 	Profile depositor = new Profile(checkingFname, checkingLname); 
+						 	int checkingDepositAmount = fileScan.nextInt();
+						 	database.deposit(new Checking(depositor,0.0, null , false), checkingDepositAmount);
 					 		break;
 					 	case 'S':
+						 	String savingFname = fileScan.next();
+						 	String savingLname = fileScan.next();
+						 	Profile savingDepositor = new Profile(savingFname, savingLname); 
+						 	int savingDepositAmount = fileScan.nextInt();
+						 	database.deposit(new Saving(savingDepositor,0.0, null , false), savingDepositAmount);
 					 
 					 		break;
 					 	case 'M':
+						 	String moneyMarketFname = fileScan.next();
+						 	String moneyMarketLname = fileScan.next();
+						 	Profile moneyMarketDepositor = new Profile(moneyMarketFname, moneyMarketLname); 
+						 	int moneyMarketDepositAmount = fileScan.nextInt();
+						 	database.deposit(new MoneyMarket(moneyMarketDepositor,0.0, null , 0), moneyMarketDepositAmount);
 					 		
 					 		break;
 					 	default:
@@ -125,13 +139,27 @@ public class TransactionManager {
 					second = choice.charAt(1);
 					 switch(second) {
 					 	case 'C':
+						 	String checkingFname = fileScan.next();
+						 	String checkingLname = fileScan.next();
+						 	Profile withdrawler= new Profile(checkingFname, checkingLname); 
+						 	int checkingWithdrawalAmount = fileScan.nextInt();
+						 	database.withdrawal(new Checking(withdrawler,0.0, null , false), checkingWithdrawalAmount);
 						 
 					 		break;
 					 	case 'S':
+					 	 	String savingFname = fileScan.next();
+						 	String savingLname = fileScan.next();
+						 	Profile savingWithdrawal = new Profile(savingFname, savingLname); 
+						 	int savingWithdrawalAmount = fileScan.nextInt();
+						 	database.withdrawal(new Saving(savingWithdrawal,0.0, null , false), savingWithdrawalAmount);
 					 
 					 		break;
 					 	case 'M':
-					 		
+						 	String moneyMarketFname = fileScan.next();
+						 	String moneyMarketLname = fileScan.next();
+						 	Profile moneyMarketWithdrawal = new Profile(moneyMarketFname, moneyMarketLname); 
+						 	int moneyMarketWithdrawalAmount = fileScan.nextInt();
+						 	database.withdrawal(new MoneyMarket(moneyMarketWithdrawal,0.0, null , 0), moneyMarketWithdrawalAmount);
 					 		break;
 					 	default:
 					 		System.out.println("Command "+"'"+first+""+second+"' not supported!");
@@ -141,13 +169,13 @@ public class TransactionManager {
 				case 'P':
 					 second = choice.charAt(1);
 					 switch(second) {
-					 	case 'C':
-						 
+					 	case 'A':
+					 		database.printAccounts();
 					 		break;
-					 	case 'S':
+					 	case 'D':
 					 
 					 		break;
-					 	case 'M':
+					 	case 'N':
 					 		
 					 		break;
 					 	default:
@@ -175,7 +203,7 @@ public class TransactionManager {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		database.printAccounts();
+
 	}
 
 	private static Date makeDate(String date) {
