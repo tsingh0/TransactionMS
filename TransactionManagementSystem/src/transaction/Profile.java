@@ -10,6 +10,9 @@ public class Profile {
 	public String toString() {
 		return fname + " " + lname;
 	}
+	public String getLname() {
+		return this.lname;
+	}
 	public boolean equals(Object obj) {
 		if(obj instanceof Profile) {
 			Profile comparison = (Profile) obj;
