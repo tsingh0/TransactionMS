@@ -25,8 +25,11 @@ public class Checking extends Account{
 	public boolean equals(Object obj) {
 		if(obj instanceof Checking) {
 			Checking comparison = (Checking) obj;
+			/*
 			return this.getHolder().equals(comparison.getHolder()) && this.getBalance() == comparison.getBalance()&&
 					this.getDateOpen().toString().equals(comparison.getDateOpen().toString()) && this.directDeposit==comparison.directDeposit;
+				*/
+			return this.getHolder().equals(comparison.getHolder());
 		}
 		return false;
 	}

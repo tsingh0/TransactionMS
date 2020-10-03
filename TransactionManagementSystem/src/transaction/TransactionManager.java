@@ -82,13 +82,22 @@ public class TransactionManager {
 					 second = choice.charAt(1);
 					 switch(second) {
 					 	case 'C':
-						 
+					 	String checkingFname = fileScan.next();
+					 	String checkingLname = fileScan.next();
+					 	Profile remover = new Profile(checkingFname, checkingLname); 
+					 	database.remove(new Checking(remover, 0.0, null, false));
 					 		break;
 					 	case 'S':
-					 
+						 	String savingFname = fileScan.next();
+						 	String savingLname = fileScan.next();
+						 	Profile savingRemover = new Profile(savingFname, savingLname); 
+						 	database.remove(new Saving(savingRemover, 0.0, null, false));
 					 		break;
 					 	case 'M':
-					 		
+						 	String moneyMarketFname = fileScan.next();
+						 	String moneyMarketLname = fileScan.next();
+						 	Profile moneyMarketRemover = new Profile(moneyMarketFname, moneyMarketLname); 
+						 	database.remove(new MoneyMarket(moneyMarketRemover, 0.0, null, 0));
 					 		break;
 					 	default:
 					 		System.out.println("Command "+"'"+first+""+second+"' not supported!");

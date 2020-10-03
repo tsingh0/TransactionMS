@@ -23,8 +23,11 @@ public class Saving extends Account{
 	public boolean equals(Object obj) {
 		if(obj instanceof Saving) {
 			Saving comparison = (Saving)obj;
+			/*
 			return this.getHolder().equals(comparison.getHolder()) && this.getBalance() == comparison.getBalance()&&
 					this.getDateOpen().toString().equals(comparison.getDateOpen().toString()) && this.isLoyal==comparison.isLoyal;
+					*/
+			return this.getHolder().equals(comparison.getHolder());
 		}
 		return false;
 	}

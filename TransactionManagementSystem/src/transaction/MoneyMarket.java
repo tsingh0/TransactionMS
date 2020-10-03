@@ -24,8 +24,11 @@ public class MoneyMarket extends Account {
 	public boolean equals(Object obj) {
 		if(obj instanceof MoneyMarket) {
 		MoneyMarket comparison = (MoneyMarket)obj;
+		/*
 			return this.getHolder().equals(comparison.getHolder()) && this.getBalance() == comparison.getBalance()&&
 					this.getDateOpen().toString().equals(comparison.getDateOpen().toString()) && this.withdrawals==comparison.withdrawals;
+		*/
+		return this.getHolder().equals(comparison.getHolder());
 		}
 		return false;
 	}
