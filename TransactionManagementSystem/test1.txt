@@ -1,0 +1,6 @@
+OC John Doe 300 1/1/2020 false
+OC John Doe 300 1/1/2020 false
+OS Kacpe R 200 1/1/2020 false
+OC John Doe 300 1/1/2020  false
+OS John Doe 500.5 1/1/2020  true
+OM John Doe 200 1/1/2020 12
