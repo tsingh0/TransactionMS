@@ -20,8 +20,9 @@ public class TransactionManager {
 			File input = new File(file);
 			Scanner fileScan = new Scanner(input);	
 			System.out.println("Transaction process starts...");
-		try {	
+			
 			while(fileScan.hasNext()) {
+				try {
 				String choice = fileScan.next();
 				char first = choice.charAt(0);
 				char second;
@@ -152,12 +153,14 @@ public class TransactionManager {
 				default:
 					
 				}
-				
+				}catch(InputMismatchException e) {
+					System.out.println("Input datatype mismatch");
+					fileScan.nextLine();
+					continue;
+				}
 			
 			}
-		}catch(InputMismatchException e) {
-			e.printStackTrace();
-		}
+		
 			fileScan.close();
 			
 		} catch (FileNotFoundException e) {
