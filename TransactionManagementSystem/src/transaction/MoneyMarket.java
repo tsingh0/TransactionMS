@@ -43,5 +43,7 @@ public class MoneyMarket extends Account {
 		return super.toString() + " " + this.withdrawals;
 
 	}
+	
+	//need to add getter and setter but too tired rn
 
 }
