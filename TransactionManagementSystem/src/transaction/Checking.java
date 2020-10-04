@@ -11,14 +11,19 @@ public class Checking extends Account {
 
 	@Override
 	public double monthlyInterest() {
+		
+		return this.getBalance()*(12/0.0005);
 
-		return 0;
 	}
 
 	@Override
 	public double monthlyFee() {
-
-		return 0;
+		
+		if(this.directDeposit==true||this.getBalance()>=1500) {
+			return 0;
+		}
+		
+		return 25;
 	}
 	// IDk if were supposed to compare the get date strings or compare if the date
 	// is less than or shit
@@ -44,5 +49,7 @@ public class Checking extends Account {
 		return super.toString() + " " + this.directDeposit;
 
 	}
+	
+	
 
 }
