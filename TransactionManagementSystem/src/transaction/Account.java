@@ -36,6 +36,7 @@ public abstract class Account {
 	
 	public void setBalance(double balance) {
 		this.balance = balance;
+		//delete this
 	}
 	
 	public Date getDateOpen() {
