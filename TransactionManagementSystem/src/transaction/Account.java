@@ -34,6 +34,10 @@ public abstract class Account {
 		return balance;
 	}
 	
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	
 	public Date getDateOpen() {
 		return dateOpen;
 	}
