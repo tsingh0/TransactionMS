@@ -119,7 +119,6 @@ public class AccountDatabase {
 
 			accounts[index].debit(amount);
 			return 0; // withdrawl successful
-
 		}
 
 	}
@@ -203,8 +202,6 @@ public class AccountDatabase {
 	}
 
 	public static void main(String[] args) {
-
-		System.out.println("Working?");
 
 		AccountDatabase test = new AccountDatabase();
 

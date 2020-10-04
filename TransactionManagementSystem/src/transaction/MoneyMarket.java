@@ -44,6 +44,12 @@ public class MoneyMarket extends Account {
 
 	}
 	
-	//need to add getter and setter but too tired rn
+	public int getWithdrawals() {
+		return this.withdrawals;
+	}
+	
+	public void setWithdrawals(int withdrawals) {
+		this.withdrawals= this.withdrawals+withdrawals;
+	}
 
 }
