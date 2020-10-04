@@ -10,6 +10,14 @@ public class AccountDatabase {
 	 * @return
 	 */
 	private int find(Account account) {
+		
+		for(int i=0; i<accounts.length;i++) {
+			
+			if(accounts[i].equals(account)) {
+				return i;
+			}
+		
+		}
 	
 		return -1;
 	}
@@ -58,6 +66,17 @@ public class AccountDatabase {
 	 * @return
 	 */
 	public boolean remove(Account account) { 
+		
+		if (find(account) != -1) {
+
+			accounts[find(account)] = accounts[size - 1];
+			accounts[size - 1] = null;
+
+			size--;
+
+			return true;
+		}
+
 		return false;
 	} 
 	
@@ -68,6 +87,14 @@ public class AccountDatabase {
 	 * @return
 	 */
 	public boolean deposit(Account account, double amount) {
+		
+		int index = find(account);
+		
+		if(index!=-1) {
+			accounts[index].setBalance(amount+ accounts[index].getBalance());
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -78,7 +105,22 @@ public class AccountDatabase {
 	 * @return
 	 */
 	public int withdrawal(Account account, double amount) {
-		return size; 
+		
+		int index = find(account);
+		
+		if(index==-1) {
+			return -1;  //account doesnt exist
+		}
+			
+		else if(accounts[index].getBalance()-amount <0) {
+			
+			return 1;   //insufficient funds
+		}else {
+			
+			accounts[index].setBalance(accounts[index].getBalance()-amount);
+			return 0;   //withdrawl successful
+			
+		}
 	}
 	/**
 	 * 
@@ -115,7 +157,64 @@ public class AccountDatabase {
 			}
 		}
 	
+	//delete this after
+	public void printArr() {
+		for(int i = 0; i< accounts.length; i++) {
+			if(accounts[i]!=null) {
+			System.out.println(accounts[i].toString());
+			}else {
+				System.out.println(accounts[i]);
+			}
+		}
+		
+		
+	}
 	
-	} 
+	public static void main(String[] args) {
+		
+		System.out.println("Working?");
+		
+		AccountDatabase test = new AccountDatabase();
+		
+		Checking c1 = new Checking(new Profile("Chandler","Bing"),100,new Date(15,11,1995),true);
+		Checking c2 = new Checking(new Profile("Ross","Geller"),100,new Date(20,10,1997),true);
+		Checking c3 = new Checking(new Profile("Monica","Bing"),100,new Date(15,11,1995),true);
+		Checking c4 = new Checking(new Profile("Joey","Tribiani"),100,new Date(15,11,1995),true);
+		Checking c5 = new Checking(new Profile("Rachel","Green"),100,new Date(15,11,1995),true);
+		Saving s5 = new Saving(new Profile("Rachel","Green"),100,new Date(15,11,1995),true);
+		
+		
+		
+		test.add(c1);
+		test.add(c2);
+		test.add(c3);
+		test.add(c4);
+		test.add(c5);
+		test.add(s5);
+
+		
+		test.printArr();
+		
+		System.out.println(test.find(s5));
+		System.out.println(test.remove(c2));
+		
+		
+		test.printArr();
+		
+		System.out.println(test.remove(new Saving(new Profile("Rachel","Green"),100,new Date(15,11,1995),true)));
+		test.printArr();
+		
+		test.deposit(c1,100);
+		
+		test.printAccounts();
+		
+		test.withdrawal(c1,200);
+		test.printAccounts();
+
+	}
+	
+} 
+
+
 	
 
