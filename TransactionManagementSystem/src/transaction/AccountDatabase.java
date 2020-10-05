@@ -13,8 +13,11 @@ public class AccountDatabase {
 
 		for (int i = 0; i < accounts.length; i++) {
 
-			if (accounts[i].equals(account)) {
-				return i;
+			if (accounts[i] != null) {
+
+				if (accounts[i].equals(account)) {
+					return i;
+				}
 			}
 
 		}
@@ -117,6 +120,11 @@ public class AccountDatabase {
 			return 1; // insufficient funds
 		} else {
 
+			if (accounts[index] instanceof MoneyMarket) {
+				MoneyMarket temp = (MoneyMarket) accounts[index];
+				temp.setWithdrawals(1);
+			}
+
 			accounts[index].debit(amount);
 			return 0; // withdrawl successful
 		}
@@ -167,10 +175,26 @@ public class AccountDatabase {
 
 		sortByDateOpen();
 
-		for (int i = 0; i < accounts.length; i++) {
-			if (accounts[i] != null) {
-				System.out.println(accounts[i].toString());
+		if (accounts[0] == null) {
+			System.out.println("Database is empty");
+		} else {
+
+			System.out.println("\n--Printing statments by last name--");
+
+			for (int i = 0; i < accounts.length; i++) {
+				if (accounts[i] != null) {
+					double balance = (accounts[i].getBalance() + accounts[i].monthlyInterest()
+							- accounts[i].monthlyFee());
+
+					System.out.println("\n"+accounts[i].toString());
+					System.out.printf("-interest: $ %.2f", accounts[i].monthlyInterest());
+					System.out.printf("\n-fee: $ %.2f", accounts[i].monthlyFee());
+					System.out.printf("\n-new balance: $ %.2f\n", balance);
+				}
 			}
+
+			System.out.println("--end of printing--");
+
 		}
 
 	}
@@ -182,10 +206,26 @@ public class AccountDatabase {
 
 		sortByLastName();
 
-		for (int i = 0; i < accounts.length; i++) {
-			if (accounts[i] != null) {
-				System.out.println(accounts[i].toString());
+		if (accounts[0] == null) {
+			System.out.println("Database is empty");
+		} else {
+
+			System.out.println("\n--Printing statments by last name--");
+
+			for (int i = 0; i < accounts.length; i++) {
+				if (accounts[i] != null) {
+					double balance = (accounts[i].getBalance() + accounts[i].monthlyInterest()
+							- accounts[i].monthlyFee());
+
+					System.out.println("\n"+accounts[i].toString());
+					System.out.printf("-interest: $ %.2f", accounts[i].monthlyInterest());
+					System.out.printf("\n-fee: $ %.2f", accounts[i].monthlyFee());
+					System.out.printf("\n-new balance: $ %.2f\n", balance);
+				}
 			}
+
+			System.out.println("--end of printing--");
+
 		}
 
 	}
@@ -194,40 +234,45 @@ public class AccountDatabase {
 	 * 
 	 */
 	public void printAccounts() {
-		for (int i = 0; i < accounts.length; i++) {
-			if (accounts[i] != null) {
-				System.out.println(accounts[i].toString());
+
+		if (accounts[0] == null) {
+			System.out.println("Database is empty");
+		} else {
+
+			System.out.println("--Listing accounts in the database--");
+
+			for (int i = 0; i < accounts.length; i++) {
+				if (accounts[i] != null) {
+					System.out.println(accounts[i].toString());
+				}
 			}
+			System.out.println("--end of listing--");
 		}
 	}
 
-	public static void main(String[] args) {
-
-		AccountDatabase test = new AccountDatabase();
-
-		Checking c1 = new Checking(new Profile("Chandler", "Bing"), 100, new Date(15, 1, 1985), true);
-		Checking c2 = new Checking(new Profile("Ross", "Geller"), 100, new Date(20, 10, 1997), true);
-		Checking c3 = new Checking(new Profile("Monica", "Bing"), 100, new Date(15, 11, 1966), true);
-		Checking c4 = new Checking(new Profile("Joey", "Tribiani"), 100, new Date(15, 12, 1995), true);
-		Checking c5 = new Checking(new Profile("Rachel", "Green"), 100, new Date(15, 11, 1995), true);
-		Saving s5 = new Saving(new Profile("Rachel", "Green"), 100, new Date(15, 11, 1995), true);
-
-		test.add(c1);
-		test.add(c2);
-		test.add(c3);
-		test.add(c4);
-		test.add(c5);
-		test.add(s5);
-
-		test.printAccounts();
-		System.out.println();
-		
-		test.deposit(c1, 100);
-		test.withdrawal(c2, 100);
-		test.withdrawal(c3, 50);
-		test.withdrawal(c4, 200);
-		
-		test.printAccounts();
-	}
+	/*
+	 * public static void main(String[] args) {
+	 * 
+	 * AccountDatabase test = new AccountDatabase();
+	 * 
+	 * Checking c1 = new Checking(new Profile("Chandler", "Bing"), 100, new Date(15,
+	 * 1, 1985), true); Checking c2 = new Checking(new Profile("Ross", "Geller"),
+	 * 100, new Date(20, 10, 1997), true); Checking c3 = new Checking(new
+	 * Profile("Monica", "Bing"), 100, new Date(15, 11, 1966), true); Checking c4 =
+	 * new Checking(new Profile("Joey", "Tribiani"), 100, new Date(15, 12, 1995),
+	 * true); Checking c5 = new Checking(new Profile("Rachel", "Green"), 100, new
+	 * Date(15, 11, 1995), true); Saving s5 = new Saving(new Profile("Rachel",
+	 * "Green"), 100, new Date(15, 11, 1995), true);
+	 * 
+	 * test.add(c1); test.add(c2); test.add(c3); test.add(c4); test.add(c5);
+	 * test.add(s5);
+	 * 
+	 * test.printAccounts(); System.out.println();
+	 * 
+	 * test.deposit(c1, 100); test.withdrawal(c2, 100); test.withdrawal(c3, 50);
+	 * test.withdrawal(c4, 200);
+	 * 
+	 * test.printAccounts(); }
+	 */
 
 }

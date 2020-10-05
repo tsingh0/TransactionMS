@@ -11,12 +11,12 @@ public class MoneyMarket extends Account {
 	@Override
 	public double monthlyInterest() {
 		
-		return this.getBalance()*(12/0.0065);
+		return this.getBalance()*(0.0065/12);
 	}
 
 	@Override
 	public double monthlyFee() {
-		if(this.withdrawals<=6 || this.getBalance()>=2500 ) {
+		if(this.withdrawals<=6 && this.getBalance()>=2500 ) {
 		return 0;
 		}
 		return 12;
@@ -39,8 +39,10 @@ public class MoneyMarket extends Account {
 
 	@Override
 	public String toString() {
+		
+		
 
-		return super.toString() + " " + this.withdrawals;
+		return "*Money Market"+super.toString() + "*" + this.withdrawals +" withdrawals*";
 
 	}
 	
@@ -48,8 +50,9 @@ public class MoneyMarket extends Account {
 		return this.withdrawals;
 	}
 	
-	public void setWithdrawals(int withdrawals) {
-		this.withdrawals= this.withdrawals+withdrawals;
+	public void setWithdrawals(int withdrawal) {
+		this.withdrawals=this.withdrawals+withdrawal;
 	}
+
 
 }

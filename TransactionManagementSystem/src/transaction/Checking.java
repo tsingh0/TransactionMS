@@ -12,7 +12,7 @@ public class Checking extends Account {
 	@Override
 	public double monthlyInterest() {
 		
-		return this.getBalance()*(12/0.0005);
+		return this.getBalance()*(0.0005/12);
 
 	}
 
@@ -42,11 +42,16 @@ public class Checking extends Account {
 		}
 		return false;
 	}
+	
 
 	@Override
 	public String toString() {
-
-		return super.toString() + " " + this.directDeposit;
+		
+		if(this.directDeposit==true) {
+			 return "*Checking"+super.toString()+"*direct deposit account*";
+		}
+		
+		return "*Checking"+super.toString();
 
 	}
 	

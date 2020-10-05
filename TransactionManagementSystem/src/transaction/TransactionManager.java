@@ -69,12 +69,13 @@ public class TransactionManager {
 
 					 		String moneyMarketDate = fileScan.next();
 					 		Date moneyMarketDateCreated = makeDate(moneyMarketDate);
-					 		int withdrawals = fileScan.nextInt(); 					 		
-					 		database.add(new MoneyMarket(newMoneyMarketProfile,moneyMarketAmmount,moneyMarketDateCreated,withdrawals));
+					 		//int withdrawals = fileScan.nextInt(); 					 		
+					 		database.add(new MoneyMarket(newMoneyMarketProfile,moneyMarketAmmount,moneyMarketDateCreated,0));
 													 		
 					 		break;
 					 	default:
 					 		System.out.println("Command "+"'"+first+""+second+"' not supported!");
+					 		fileScan.nextLine();
 					 }
 					
 					break;
@@ -85,22 +86,38 @@ public class TransactionManager {
 					 	String checkingFname = fileScan.next();
 					 	String checkingLname = fileScan.next();
 					 	Profile remover = new Profile(checkingFname, checkingLname); 
-					 	database.remove(new Checking(remover, 0.0, null, false));
+					 	boolean removeC = database.remove(new Checking(remover, 0.0, null, false));
+					 	if(removeC==true) {
+					 		System.out.println("Account closed and removed from the database");
+					 	}else {
+					 		System.out.println("Account does not exist");
+					 	}
 					 		break;
 					 	case 'S':
 						 	String savingFname = fileScan.next();
 						 	String savingLname = fileScan.next();
 						 	Profile savingRemover = new Profile(savingFname, savingLname); 
-						 	database.remove(new Saving(savingRemover, 0.0, null, false));
-					 		break;
+						 	boolean removeS = database.remove(new Saving(savingRemover, 0.0, null, false));
+						 	if(removeS==true) {
+						 		System.out.println("Account closed and removed from the database");
+						 	}else {
+						 		System.out.println("Account does not exist");
+						 	}
+						 	break;
 					 	case 'M':
 						 	String moneyMarketFname = fileScan.next();
 						 	String moneyMarketLname = fileScan.next();
 						 	Profile moneyMarketRemover = new Profile(moneyMarketFname, moneyMarketLname); 
-						 	database.remove(new MoneyMarket(moneyMarketRemover, 0.0, null, 0));
-					 		break;
+						 	boolean removeM =database.remove(new MoneyMarket(moneyMarketRemover, 0.0, null, 0));
+						 	if(removeM==true) {
+						 		System.out.println("Account closed and removed from the database");
+						 	}else {
+						 		System.out.println("Account does not exist");
+						 	}
+						 	break;
 					 	default:
 					 		System.out.println("Command "+"'"+first+""+second+"' not supported!");
+					 		fileScan.nextLine();
 					 }
 					
 					break;
@@ -112,26 +129,44 @@ public class TransactionManager {
 						 	String checkingLname = fileScan.next();
 						 	Profile depositor = new Profile(checkingFname, checkingLname); 
 						 	int checkingDepositAmount = fileScan.nextInt();
-						 	database.deposit(new Checking(depositor,0.0, null , false), checkingDepositAmount);
+						 	boolean depositedC = database.deposit(new Checking(depositor,0.0, null , false), checkingDepositAmount);
+						 	if(depositedC != true) {
+						 		System.out.println("Account does not exist");
+						 	}else {
+						 	System.out.println(checkingDepositAmount+ " deposited to account");
+						 	}
 					 		break;
 					 	case 'S':
 						 	String savingFname = fileScan.next();
 						 	String savingLname = fileScan.next();
 						 	Profile savingDepositor = new Profile(savingFname, savingLname); 
 						 	int savingDepositAmount = fileScan.nextInt();
-						 	database.deposit(new Saving(savingDepositor,0.0, null , false), savingDepositAmount);
-					 
+						 	boolean depositedS =database.deposit(new Saving(savingDepositor,0.0, null , false), savingDepositAmount);
+						 	
+						 	if(depositedS!=true) {
+						 		System.out.println("Account does not exist");
+						 	}else {
+							 	System.out.println(savingDepositAmount+" deposited to account");
+
+						 	}
+						 	
 					 		break;
 					 	case 'M':
 						 	String moneyMarketFname = fileScan.next();
 						 	String moneyMarketLname = fileScan.next();
 						 	Profile moneyMarketDepositor = new Profile(moneyMarketFname, moneyMarketLname); 
 						 	int moneyMarketDepositAmount = fileScan.nextInt();
-						 	database.deposit(new MoneyMarket(moneyMarketDepositor,0.0, null , 0), moneyMarketDepositAmount);
+						 	boolean depositedM=database.deposit(new MoneyMarket(moneyMarketDepositor,0.0, null , 0), moneyMarketDepositAmount);
 					 		
+						 	if(depositedM!=true) {
+						 		System.out.println("Account does not exist");
+						 	}else {
+						 	System.out.println(moneyMarketDepositAmount+" deposited to account");
+						 	}
 					 		break;
 					 	default:
 					 		System.out.println("Command "+"'"+first+""+second+"' not supported!");
+					 		fileScan.nextLine();
 					 }
 					
 					break;
@@ -143,26 +178,54 @@ public class TransactionManager {
 						 	String checkingLname = fileScan.next();
 						 	Profile withdrawler= new Profile(checkingFname, checkingLname); 
 						 	int checkingWithdrawalAmount = fileScan.nextInt();
-						 	database.withdrawal(new Checking(withdrawler,0.0, null , false), checkingWithdrawalAmount);
-						 
+						 	int withdrawnC = database.withdrawal(new Checking(withdrawler,0.0, null , false), checkingWithdrawalAmount);
+						 	if(withdrawnC == -1) {
+						 		System.out.println("Account does not exist");
+						 	}
+						 	else if(withdrawnC ==1) {
+						 		System.out.println("Insufficient funds");
+						 	}else {
+						 		System.out.println(checkingWithdrawalAmount+" withdrawn from account");
+						 	}
 					 		break;
 					 	case 'S':
 					 	 	String savingFname = fileScan.next();
 						 	String savingLname = fileScan.next();
 						 	Profile savingWithdrawal = new Profile(savingFname, savingLname); 
 						 	int savingWithdrawalAmount = fileScan.nextInt();
-						 	database.withdrawal(new Saving(savingWithdrawal,0.0, null , false), savingWithdrawalAmount);
-					 
+						 	int withdrawnS = database.withdrawal(new Saving(savingWithdrawal,0.0, null , false), savingWithdrawalAmount);
+						 	if(withdrawnS == -1) {
+						 		System.out.println("Account does not exist");
+						 	}
+						 	else if(withdrawnS ==1) {
+						 		System.out.println("Insufficient funds");
+						 	}else {
+						 		System.out.println(savingWithdrawalAmount+" withdrawn from account");
+						 	}
+						 	
 					 		break;
 					 	case 'M':
 						 	String moneyMarketFname = fileScan.next();
 						 	String moneyMarketLname = fileScan.next();
 						 	Profile moneyMarketWithdrawal = new Profile(moneyMarketFname, moneyMarketLname); 
 						 	int moneyMarketWithdrawalAmount = fileScan.nextInt();
-						 	database.withdrawal(new MoneyMarket(moneyMarketWithdrawal,0.0, null , 0), moneyMarketWithdrawalAmount);
-					 		break;
+						 	MoneyMarket temp = new MoneyMarket(moneyMarketWithdrawal,0.0, null , 0);
+						 	int withdrawnM = database.withdrawal(temp, moneyMarketWithdrawalAmount);
+					 		
+						 	if(withdrawnM == -1) {
+						 		System.out.println("Account does not exist");
+						 	}
+						 	else if(withdrawnM ==1) {
+						 		System.out.println("Insufficient funds");
+						 	}else {
+						 		
+						 		System.out.println(moneyMarketWithdrawalAmount+" withdrawn from account");
+						 	}
+						 	
+						 	break;
 					 	default:
 					 		System.out.println("Command "+"'"+first+""+second+"' not supported!");
+					 		fileScan.nextLine();
 					 }
 					
 					break;
@@ -170,16 +233,19 @@ public class TransactionManager {
 					 second = choice.charAt(1);
 					 switch(second) {
 					 	case 'A':
+					 		//System.out.println("--Listing accounts in the database--");
 					 		database.printAccounts();
+					 		//System.out.println("--end of listing--");
 					 		break;
 					 	case 'D':
-					 
+					 		database.printByDateOpen();
 					 		break;
 					 	case 'N':
-					 		
+					 		database.printByLastName();
 					 		break;
 					 	default:
 					 		System.out.println("Command "+"'"+first+""+second+"' not supported!");
+					 		fileScan.nextLine();
 					 }
 					
 					break;
@@ -188,6 +254,12 @@ public class TransactionManager {
 					
 					break;
 				default:
+					if(choice.length()>1) {
+						second = choice.charAt(1);
+						System.out.println("Command "+"'"+first+""+second+"' not supported!");
+					}else
+					System.out.println("Command '"+first+"' not supported!");
+					fileScan.nextLine();
 					
 				}
 				}catch(InputMismatchException e) {
@@ -216,7 +288,7 @@ public class TransactionManager {
 			int day = Integer.parseInt(dayString);
 			String yearString = dateToken.nextToken();
 			int year = Integer.parseInt(yearString);
-			dateForm = new Date (month, day , year);
+			dateForm = new Date (day, month , year);
 		}
 		
 		return dateForm;

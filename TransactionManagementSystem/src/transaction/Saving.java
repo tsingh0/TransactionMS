@@ -12,7 +12,7 @@ public class Saving extends Account {
 	public double monthlyInterest() {
 
 		
-		return this.getBalance()*(12/0.0025);
+		return this.getBalance()*(0.0025/12);
 	}
 
 	@Override
@@ -41,8 +41,12 @@ public class Saving extends Account {
 
 	@Override
 	public String toString() {
-
-		return super.toString() + " " + this.isLoyal;
+		
+		if(this.isLoyal==true) {
+			return "*Savings"+super.toString()+"*special Savings account*";
+		}
+		
+		return "*Savings"+super.toString();
 
 	}
 
