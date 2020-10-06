@@ -176,7 +176,7 @@ public class AccountDatabase {
 		sortByDateOpen();
 
 		if (accounts[0] == null) {
-			System.out.println("Database is empty");
+			System.out.println("Database is empty.");
 		} else {
 
 			System.out.println("\n--Printing statments by last name--");
@@ -207,7 +207,7 @@ public class AccountDatabase {
 		sortByLastName();
 
 		if (accounts[0] == null) {
-			System.out.println("Database is empty");
+			System.out.println("Database is empty.");
 		} else {
 
 			System.out.println("\n--Printing statments by last name--");
@@ -236,7 +236,7 @@ public class AccountDatabase {
 	public void printAccounts() {
 
 		if (accounts[0] == null) {
-			System.out.println("Database is empty");
+			System.out.println("Database is empty.");
 		} else {
 
 			System.out.println("--Listing accounts in the database--");

@@ -19,13 +19,14 @@ public class TransactionManager {
 		try {
 			File input = new File(file);
 			Scanner fileScan = new Scanner(input);	
-			System.out.println("Transaction process starts...");
+			System.out.println("Transaction processing starts.....");
 			
 			while(fileScan.hasNext()) {
 				try {
 				String choice = fileScan.next();
 				char first = choice.charAt(0);
 				char second;
+				Date dateCreated;
 				
 				switch(first) {
 				case 'O':
@@ -39,11 +40,16 @@ public class TransactionManager {
 					 		double ammount = fileScan.nextDouble();
 					 		
 					 		String date = fileScan.next();
-					 		Date dateCreated = makeDate(date);
+					 		dateCreated = makeDate(date);
 					 		
-					 		boolean directDeposit = fileScan.nextBoolean(); 					 		
+					 		boolean directDeposit = fileScan.nextBoolean(); 		
+					 		
+					 		if(dateCreated.isValid()==false) {
+					 			System.out.println(dateCreated+" is not a valid date!");
+					 			break;
+					 		}else {
 					 		database.add(new Checking(newProfile,ammount,dateCreated,directDeposit));
-
+					 		}
 					 		break;
 					 		
 					 	case 'S':
@@ -54,11 +60,16 @@ public class TransactionManager {
 					 		double savingsAmmount = fileScan.nextDouble();
 					 		
 					 		String savingsDate = fileScan.next();
-					 		Date savingsDateCreated = makeDate(savingsDate);
+					 		dateCreated = makeDate(savingsDate);
 					 		
-					 		 boolean isLoyal = fileScan.nextBoolean(); 					 		
-					 		 database.add(new Saving(newSavingsProfile,savingsAmmount,savingsDateCreated,isLoyal));
-					 
+					 		boolean isLoyal = fileScan.nextBoolean(); 			
+					 		 
+					 		if(dateCreated.isValid()==false) {
+					 			System.out.println(dateCreated+" is not a valid date!");
+					 			break;
+					 		}else {
+					 		 database.add(new Saving(newSavingsProfile,savingsAmmount,dateCreated,isLoyal));
+					 		}
 					 		break;
 					 	case 'M':
 					 		String moneyMarketFname = fileScan.next();
@@ -68,12 +79,21 @@ public class TransactionManager {
 					 		double moneyMarketAmmount = fileScan.nextDouble();
 
 					 		String moneyMarketDate = fileScan.next();
-					 		Date moneyMarketDateCreated = makeDate(moneyMarketDate);
-					 		//int withdrawals = fileScan.nextInt(); 					 		
-					 		database.add(new MoneyMarket(newMoneyMarketProfile,moneyMarketAmmount,moneyMarketDateCreated,0));
-													 		
+					 		dateCreated = makeDate(moneyMarketDate);
+					 	
+					 		//int withdrawals = fileScan.nextInt(); 	
+					 		if(dateCreated.isValid()==false) {
+					 			System.out.println(dateCreated+" is not a valid date!");
+					 			break;
+					 		}else {
+					 		database.add(new MoneyMarket(newMoneyMarketProfile,moneyMarketAmmount,dateCreated,0));
+					 		}					 		
 					 		break;
 					 	default:
+					 		
+					 		/*if(dateCreated.isValid()==false) {
+					 			System.out.println(dateCreated+" is not a valid date!");
+					 		}else*/
 					 		System.out.println("Command "+"'"+first+""+second+"' not supported!");
 					 		fileScan.nextLine();
 					 }
@@ -88,9 +108,9 @@ public class TransactionManager {
 					 	Profile remover = new Profile(checkingFname, checkingLname); 
 					 	boolean removeC = database.remove(new Checking(remover, 0.0, null, false));
 					 	if(removeC==true) {
-					 		System.out.println("Account closed and removed from the database");
+					 		System.out.println("Account closed and removed from the database.");
 					 	}else {
-					 		System.out.println("Account does not exist");
+					 		System.out.println("Account does not exist.");
 					 	}
 					 		break;
 					 	case 'S':
@@ -101,7 +121,7 @@ public class TransactionManager {
 						 	if(removeS==true) {
 						 		System.out.println("Account closed and removed from the database");
 						 	}else {
-						 		System.out.println("Account does not exist");
+						 		System.out.println("Account does not exist.");
 						 	}
 						 	break;
 					 	case 'M':
@@ -112,7 +132,7 @@ public class TransactionManager {
 						 	if(removeM==true) {
 						 		System.out.println("Account closed and removed from the database");
 						 	}else {
-						 		System.out.println("Account does not exist");
+						 		System.out.println("Account does not exist.");
 						 	}
 						 	break;
 					 	default:
@@ -131,9 +151,9 @@ public class TransactionManager {
 						 	int checkingDepositAmount = fileScan.nextInt();
 						 	boolean depositedC = database.deposit(new Checking(depositor,0.0, null , false), checkingDepositAmount);
 						 	if(depositedC != true) {
-						 		System.out.println("Account does not exist");
+						 		System.out.println("Account does not exist.");
 						 	}else {
-						 	System.out.println(checkingDepositAmount+ " deposited to account");
+						 	System.out.println(checkingDepositAmount+ " deposited to account.");
 						 	}
 					 		break;
 					 	case 'S':
@@ -144,9 +164,9 @@ public class TransactionManager {
 						 	boolean depositedS =database.deposit(new Saving(savingDepositor,0.0, null , false), savingDepositAmount);
 						 	
 						 	if(depositedS!=true) {
-						 		System.out.println("Account does not exist");
+						 		System.out.println("Account does not exist.");
 						 	}else {
-							 	System.out.println(savingDepositAmount+" deposited to account");
+							 	System.out.println(savingDepositAmount+" deposited to account.");
 
 						 	}
 						 	
@@ -159,9 +179,9 @@ public class TransactionManager {
 						 	boolean depositedM=database.deposit(new MoneyMarket(moneyMarketDepositor,0.0, null , 0), moneyMarketDepositAmount);
 					 		
 						 	if(depositedM!=true) {
-						 		System.out.println("Account does not exist");
+						 		System.out.println("Account does not exist.");
 						 	}else {
-						 	System.out.println(moneyMarketDepositAmount+" deposited to account");
+						 	System.out.println(moneyMarketDepositAmount+" deposited to account.");
 						 	}
 					 		break;
 					 	default:
@@ -180,12 +200,12 @@ public class TransactionManager {
 						 	int checkingWithdrawalAmount = fileScan.nextInt();
 						 	int withdrawnC = database.withdrawal(new Checking(withdrawler,0.0, null , false), checkingWithdrawalAmount);
 						 	if(withdrawnC == -1) {
-						 		System.out.println("Account does not exist");
+						 		System.out.println("Account does not exist.");
 						 	}
 						 	else if(withdrawnC ==1) {
 						 		System.out.println("Insufficient funds");
 						 	}else {
-						 		System.out.println(checkingWithdrawalAmount+" withdrawn from account");
+						 		System.out.println(checkingWithdrawalAmount+" withdrawn from account.");
 						 	}
 					 		break;
 					 	case 'S':
@@ -195,7 +215,7 @@ public class TransactionManager {
 						 	int savingWithdrawalAmount = fileScan.nextInt();
 						 	int withdrawnS = database.withdrawal(new Saving(savingWithdrawal,0.0, null , false), savingWithdrawalAmount);
 						 	if(withdrawnS == -1) {
-						 		System.out.println("Account does not exist");
+						 		System.out.println("Account does not exist.");
 						 	}
 						 	else if(withdrawnS ==1) {
 						 		System.out.println("Insufficient funds");
@@ -213,7 +233,7 @@ public class TransactionManager {
 						 	int withdrawnM = database.withdrawal(temp, moneyMarketWithdrawalAmount);
 					 		
 						 	if(withdrawnM == -1) {
-						 		System.out.println("Account does not exist");
+						 		System.out.println("Account does not exist.");
 						 	}
 						 	else if(withdrawnM ==1) {
 						 		System.out.println("Insufficient funds");
@@ -250,7 +270,7 @@ public class TransactionManager {
 					
 					break;
 				case 'Q':
-					System.out.println("Transaction processing completed.");
+					System.out.println("Transaction processing completed");
 					
 					break;
 				default:
@@ -263,7 +283,7 @@ public class TransactionManager {
 					
 				}
 				}catch(InputMismatchException e) {
-					System.out.println("Input datatype mismatch");
+					System.out.println("Input data type mismatch.");
 					fileScan.nextLine();
 					continue;
 				}
@@ -288,7 +308,7 @@ public class TransactionManager {
 			int day = Integer.parseInt(dayString);
 			String yearString = dateToken.nextToken();
 			int year = Integer.parseInt(yearString);
-			dateForm = new Date (day, month , year);
+			dateForm = new Date (month, day , year);
 		}
 		
 		return dateForm;
