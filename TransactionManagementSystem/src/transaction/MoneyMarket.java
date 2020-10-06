@@ -40,8 +40,10 @@ public class MoneyMarket extends Account {
 	@Override
 	public String toString() {
 		
-		
-
+		if(this.withdrawals==1) {
+		 return "*Money Market"+super.toString() + "*" + this.withdrawals +" withdrawal*";
+		}
+		else
 		return "*Money Market"+super.toString() + "*" + this.withdrawals +" withdrawals*";
 
 	}

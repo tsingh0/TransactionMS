@@ -179,7 +179,7 @@ public class AccountDatabase {
 			System.out.println("Database is empty.");
 		} else {
 
-			System.out.println("\n--Printing statments by last name--");
+			System.out.println("\n--Printing statements by last name--");
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
@@ -210,7 +210,7 @@ public class AccountDatabase {
 			System.out.println("Database is empty.");
 		} else {
 
-			System.out.println("\n--Printing statments by last name--");
+			System.out.println("\n--Printing statements by last name--");
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {

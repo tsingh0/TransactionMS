@@ -1,6 +1,8 @@
 package transaction;
 
 import java.io.File;
+import java.text.DecimalFormat;
+
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -10,6 +12,7 @@ public class TransactionManager {
 
 	public static void run() {
 		
+		DecimalFormat df = new DecimalFormat("#,###,##0.00");
 		AccountDatabase database= new AccountDatabase();
 		
 		System.out.println("Enter the input file : ");
@@ -119,7 +122,7 @@ public class TransactionManager {
 						 	Profile savingRemover = new Profile(savingFname, savingLname); 
 						 	boolean removeS = database.remove(new Saving(savingRemover, 0.0, null, false));
 						 	if(removeS==true) {
-						 		System.out.println("Account closed and removed from the database");
+						 		System.out.println("Account closed and removed from the database.");
 						 	}else {
 						 		System.out.println("Account does not exist.");
 						 	}
@@ -130,7 +133,7 @@ public class TransactionManager {
 						 	Profile moneyMarketRemover = new Profile(moneyMarketFname, moneyMarketLname); 
 						 	boolean removeM =database.remove(new MoneyMarket(moneyMarketRemover, 0.0, null, 0));
 						 	if(removeM==true) {
-						 		System.out.println("Account closed and removed from the database");
+						 		System.out.println("Account closed and removed from the database.");
 						 	}else {
 						 		System.out.println("Account does not exist.");
 						 	}
@@ -153,7 +156,7 @@ public class TransactionManager {
 						 	if(depositedC != true) {
 						 		System.out.println("Account does not exist.");
 						 	}else {
-						 	System.out.println(checkingDepositAmount+ " deposited to account.");
+						 	System.out.println(df.format(checkingDepositAmount)+ " deposited to account.");
 						 	}
 					 		break;
 					 	case 'S':
@@ -166,7 +169,7 @@ public class TransactionManager {
 						 	if(depositedS!=true) {
 						 		System.out.println("Account does not exist.");
 						 	}else {
-							 	System.out.println(savingDepositAmount+" deposited to account.");
+							 	System.out.println(df.format(savingDepositAmount)+" deposited to account.");
 
 						 	}
 						 	
@@ -181,7 +184,7 @@ public class TransactionManager {
 						 	if(depositedM!=true) {
 						 		System.out.println("Account does not exist.");
 						 	}else {
-						 	System.out.println(moneyMarketDepositAmount+" deposited to account.");
+						 	System.out.println(df.format(moneyMarketDepositAmount)+" deposited to account.");
 						 	}
 					 		break;
 					 	default:
@@ -203,9 +206,9 @@ public class TransactionManager {
 						 		System.out.println("Account does not exist.");
 						 	}
 						 	else if(withdrawnC ==1) {
-						 		System.out.println("Insufficient funds");
+						 		System.out.println("Insufficient funds.");
 						 	}else {
-						 		System.out.println(checkingWithdrawalAmount+" withdrawn from account.");
+						 		System.out.println(df.format(checkingWithdrawalAmount)+" withdrawn from account.");
 						 	}
 					 		break;
 					 	case 'S':
@@ -218,9 +221,9 @@ public class TransactionManager {
 						 		System.out.println("Account does not exist.");
 						 	}
 						 	else if(withdrawnS ==1) {
-						 		System.out.println("Insufficient funds");
+						 		System.out.println("Insufficient funds.");
 						 	}else {
-						 		System.out.println(savingWithdrawalAmount+" withdrawn from account.");
+						 		System.out.println(df.format(savingWithdrawalAmount)+" withdrawn from account.");
 						 	}
 						 	
 					 		break;
@@ -236,10 +239,10 @@ public class TransactionManager {
 						 		System.out.println("Account does not exist.");
 						 	}
 						 	else if(withdrawnM ==1) {
-						 		System.out.println("Insufficient funds");
+						 		System.out.println("Insufficient funds.");
 						 	}else {
 						 		
-						 		System.out.println(moneyMarketWithdrawalAmount+" withdrawn from account.");
+						 		System.out.println(df.format(moneyMarketWithdrawalAmount)+" withdrawn from account.");
 						 	}
 						 	
 						 	break;
