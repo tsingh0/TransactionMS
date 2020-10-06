@@ -1,18 +1,35 @@
 package transaction;
-
-//read directions for date class she was saying some fuck shit in lecture about it
-
+/**
+ * Date Class holds date that user account was created.
+ * Date class implements Comparable class and is used to 
+ * compare two dates. Date class also has capability of
+ * validating a date. 
+ * 
+ * @author Kacper Murdzek, Taranvir Singh
+ */
 public class Date implements Comparable<Date> {
 	private int year;
 	private int month;
 	private int day;
-
+/**
+ * Date constructor creates a Date object
+ * @param month month of the date
+ * @param day day of the date
+ * @param year year of the date
+ */
 	public Date(int month, int day, int year) {
 		this.year = year;
 		this.day = day;
 		this.month = month;
 	}
-
+/**
+ * Compares two dates and returns 1 if the first date is greater than the second,
+ * returns 0 if the first date equals the second,
+ * returns -1 if the first date is less than the second.
+ * @param date Date object being compared
+ * @return int comparison result 
+ * 	
+ */
 	public int compareTo(Date date) {
 
 		if (this.year > date.year) {
@@ -31,11 +48,18 @@ public class Date implements Comparable<Date> {
 			return 0;
 
 	}
-
+	/**
+	 * Returns the date as a String
+	 * @return String date
+	 */
+	@Override
 	public String toString() {
 		return this.month + "/" + this.day + "/" + this.year;
 	}
-
+	/**
+	 * Checks to see if the Date is a real date.
+	 * @return validation true if the date is valid, false if not
+	 */
 	public boolean isValid() {
 
 		switch (this.month) {
@@ -114,15 +138,24 @@ public class Date implements Comparable<Date> {
 		}
 		return false;
 	}
-
+	/**
+	 * Getter method returns the dates year
+	 * @return int year
+	 */
 	public int getYear() {
 		return this.year;
 	}
-
+	/**
+	 * Getter method returns the dates month
+	 * @return int month
+	 */
 	public int getMonth() {
 		return this.month;
 	}
-
+	/**
+	 * Getter method returns the dates day
+ 	* @return int day
+ 	*/
 	public int getDay() {
 		return this.day;
 	}
