@@ -220,7 +220,7 @@ public class TransactionManager {
 						 	else if(withdrawnS ==1) {
 						 		System.out.println("Insufficient funds");
 						 	}else {
-						 		System.out.println(savingWithdrawalAmount+" withdrawn from account");
+						 		System.out.println(savingWithdrawalAmount+" withdrawn from account.");
 						 	}
 						 	
 					 		break;
@@ -239,7 +239,7 @@ public class TransactionManager {
 						 		System.out.println("Insufficient funds");
 						 	}else {
 						 		
-						 		System.out.println(moneyMarketWithdrawalAmount+" withdrawn from account");
+						 		System.out.println(moneyMarketWithdrawalAmount+" withdrawn from account.");
 						 	}
 						 	
 						 	break;

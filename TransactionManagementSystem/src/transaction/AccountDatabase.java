@@ -187,9 +187,9 @@ public class AccountDatabase {
 							- accounts[i].monthlyFee());
 
 					System.out.println("\n"+accounts[i].toString());
-					System.out.printf("-interest: $ %.2f", accounts[i].monthlyInterest());
-					System.out.printf("\n-fee: $ %.2f", accounts[i].monthlyFee());
-					System.out.printf("\n-new balance: $ %.2f\n", balance);
+					System.out.println(String.format("-interest: $ %,.2f", accounts[i].monthlyInterest()));
+					System.out.println(String.format("-fee: $ %,.2f", accounts[i].monthlyFee()));
+					System.out.println(String.format("-new balance: $ %,.2f", balance));
 				}
 			}
 
@@ -218,9 +218,9 @@ public class AccountDatabase {
 							- accounts[i].monthlyFee());
 
 					System.out.println("\n"+accounts[i].toString());
-					System.out.printf("-interest: $ %.2f", accounts[i].monthlyInterest());
-					System.out.printf("\n-fee: $ %.2f", accounts[i].monthlyFee());
-					System.out.printf("\n-new balance: $ %.2f\n", balance);
+					System.out.println(String.format("-interest: $ %,.2f", accounts[i].monthlyInterest()));
+					System.out.println(String.format("-fee: $ %,.2f", accounts[i].monthlyFee()));
+					System.out.println(String.format("-new balance: $ %,.2f", balance));
 				}
 			}
 

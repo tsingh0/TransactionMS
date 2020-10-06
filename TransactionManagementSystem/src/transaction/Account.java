@@ -24,7 +24,7 @@ public abstract class Account {
 	}
 
 	public String toString() {
-		return ("*"+this.holder.toString() + "* $" + this.balance + "*" + this.dateOpen.toString());
+		return (String.format("*"+this.holder.toString() + "* $" + "%,.2f" + "*" + this.dateOpen.toString(),this.balance));
 	}
 
 	public abstract boolean equals(Object obj);
