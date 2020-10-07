@@ -1,4 +1,6 @@
 package transaction;
+import java.text.DecimalFormat;
+
 
 public class AccountDatabase {
 	private Account[] accounts = new Account[5];
@@ -172,6 +174,8 @@ public class AccountDatabase {
 	 * 
 	 */
 	public void printByDateOpen() {
+		
+		DecimalFormat df = new DecimalFormat("#,###,##0.00");
 
 		sortByDateOpen();
 
@@ -179,17 +183,22 @@ public class AccountDatabase {
 			System.out.println("Database is empty.");
 		} else {
 
-			System.out.println("\n--Printing statements by last name--");
+			System.out.println("\n--Printing statements by date opened--");
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
-					double balance = (accounts[i].getBalance() + accounts[i].monthlyInterest()
-							- accounts[i].monthlyFee());
+					
 
 					System.out.println("\n"+accounts[i].toString());
-					System.out.println(String.format("-interest: $ %,.2f", accounts[i].monthlyInterest()));
-					System.out.println(String.format("-fee: $ %,.2f", accounts[i].monthlyFee()));
-					System.out.println(String.format("-new balance: $ %,.2f", balance));
+					
+					double monthInterest = accounts[i].monthlyInterest();
+
+					accounts[i].setBalance(accounts[i].getBalance() + accounts[i].monthlyInterest()
+							- accounts[i].monthlyFee());
+					
+					System.out.println(String.format("-interest: $ " +df.format(monthInterest)));
+					System.out.println(String.format("-fee: $ "+df.format(accounts[i].monthlyFee())));
+					System.out.println(String.format("-new balance: $ "+ df.format(accounts[i].getBalance())));
 				}
 			}
 
@@ -204,6 +213,7 @@ public class AccountDatabase {
 	 */
 	public void printByLastName() {
 
+		DecimalFormat df = new DecimalFormat("#,###,##0.00");
 		sortByLastName();
 
 		if (accounts[0] == null) {
@@ -214,13 +224,17 @@ public class AccountDatabase {
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
-					double balance = (accounts[i].getBalance() + accounts[i].monthlyInterest()
-							- accounts[i].monthlyFee());
-
+					
 					System.out.println("\n"+accounts[i].toString());
-					System.out.println(String.format("-interest: $ %,.2f", accounts[i].monthlyInterest()));
-					System.out.println(String.format("-fee: $ %,.2f", accounts[i].monthlyFee()));
-					System.out.println(String.format("-new balance: $ %,.2f", balance));
+					
+					double monthInterest = accounts[i].monthlyInterest();
+
+					accounts[i].setBalance(accounts[i].getBalance() + accounts[i].monthlyInterest()
+							- accounts[i].monthlyFee());
+										
+					System.out.println(String.format("-interest: $ "+ df.format(monthInterest)));
+					System.out.println(String.format("-fee: $ "+ df.format(accounts[i].monthlyFee())));
+					System.out.println(String.format("-new balance: $ "+ df.format(accounts[i].getBalance())));
 				}
 			}
 

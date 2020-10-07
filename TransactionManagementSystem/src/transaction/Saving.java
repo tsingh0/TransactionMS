@@ -25,8 +25,11 @@ public class Saving extends Account {
 	 */
 	@Override
 	public double monthlyInterest() {
-
 		
+		if(this.isLoyal==true) {
+			return this.getBalance()*(0.0035/12);
+		}
+		else
 		return this.getBalance()*(0.0025/12);
 	}
 	/**
