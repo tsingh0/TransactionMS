@@ -24,11 +24,12 @@ public abstract class Account {
 	}
 
 	public String toString() {
-		return (String.format("*"+this.holder.toString() + "* $" + "%,.2f" + "*" + this.dateOpen.toString(),this.balance));
+		return (String.format("*" + this.holder.toString() + "* $" + "%,.2f" + "*" + this.dateOpen.toString(),
+				this.balance));
 	}
 
 	public abstract boolean equals(Object obj);
-	
+
 	public abstract double monthlyInterest();
 
 	public abstract double monthlyFee();

@@ -1,6 +1,6 @@
 package transaction;
-import java.text.DecimalFormat;
 
+import java.text.DecimalFormat;
 
 public class AccountDatabase {
 	private Account[] accounts = new Account[5];
@@ -128,7 +128,7 @@ public class AccountDatabase {
 			}
 
 			accounts[index].debit(amount);
-			return 0; // withdrawl successful
+			return 0; // withdrawal successful
 		}
 
 	}
@@ -174,7 +174,7 @@ public class AccountDatabase {
 	 * 
 	 */
 	public void printByDateOpen() {
-		
+
 		DecimalFormat df = new DecimalFormat("#,###,##0.00");
 
 		sortByDateOpen();
@@ -187,18 +187,17 @@ public class AccountDatabase {
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
-					
 
-					System.out.println("\n"+accounts[i].toString());
-					
+					System.out.println("\n" + accounts[i].toString());
+
 					double monthInterest = accounts[i].monthlyInterest();
 
-					accounts[i].setBalance(accounts[i].getBalance() + accounts[i].monthlyInterest()
-							- accounts[i].monthlyFee());
-					
-					System.out.println(String.format("-interest: $ " +df.format(monthInterest)));
-					System.out.println(String.format("-fee: $ "+df.format(accounts[i].monthlyFee())));
-					System.out.println(String.format("-new balance: $ "+ df.format(accounts[i].getBalance())));
+					accounts[i].setBalance(
+							accounts[i].getBalance() + accounts[i].monthlyInterest() - accounts[i].monthlyFee());
+
+					System.out.println(String.format("-interest: $ " + df.format(monthInterest)));
+					System.out.println(String.format("-fee: $ " + df.format(accounts[i].monthlyFee())));
+					System.out.println(String.format("-new balance: $ " + df.format(accounts[i].getBalance())));
 				}
 			}
 
@@ -224,17 +223,17 @@ public class AccountDatabase {
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
-					
-					System.out.println("\n"+accounts[i].toString());
-					
+
+					System.out.println("\n" + accounts[i].toString());
+
 					double monthInterest = accounts[i].monthlyInterest();
 
-					accounts[i].setBalance(accounts[i].getBalance() + accounts[i].monthlyInterest()
-							- accounts[i].monthlyFee());
-										
-					System.out.println(String.format("-interest: $ "+ df.format(monthInterest)));
-					System.out.println(String.format("-fee: $ "+ df.format(accounts[i].monthlyFee())));
-					System.out.println(String.format("-new balance: $ "+ df.format(accounts[i].getBalance())));
+					accounts[i].setBalance(
+							accounts[i].getBalance() + accounts[i].monthlyInterest() - accounts[i].monthlyFee());
+
+					System.out.println(String.format("-interest: $ " + df.format(monthInterest)));
+					System.out.println(String.format("-fee: $ " + df.format(accounts[i].monthlyFee())));
+					System.out.println(String.format("-new balance: $ " + df.format(accounts[i].getBalance())));
 				}
 			}
 
@@ -263,30 +262,5 @@ public class AccountDatabase {
 			System.out.println("--end of listing--");
 		}
 	}
-
-	/*
-	 * public static void main(String[] args) {
-	 * 
-	 * AccountDatabase test = new AccountDatabase();
-	 * 
-	 * Checking c1 = new Checking(new Profile("Chandler", "Bing"), 100, new Date(15,
-	 * 1, 1985), true); Checking c2 = new Checking(new Profile("Ross", "Geller"),
-	 * 100, new Date(20, 10, 1997), true); Checking c3 = new Checking(new
-	 * Profile("Monica", "Bing"), 100, new Date(15, 11, 1966), true); Checking c4 =
-	 * new Checking(new Profile("Joey", "Tribiani"), 100, new Date(15, 12, 1995),
-	 * true); Checking c5 = new Checking(new Profile("Rachel", "Green"), 100, new
-	 * Date(15, 11, 1995), true); Saving s5 = new Saving(new Profile("Rachel",
-	 * "Green"), 100, new Date(15, 11, 1995), true);
-	 * 
-	 * test.add(c1); test.add(c2); test.add(c3); test.add(c4); test.add(c5);
-	 * test.add(s5);
-	 * 
-	 * test.printAccounts(); System.out.println();
-	 * 
-	 * test.deposit(c1, 100); test.withdrawal(c2, 100); test.withdrawal(c3, 50);
-	 * test.withdrawal(c4, 200);
-	 * 
-	 * test.printAccounts(); }
-	 */
 
 }
