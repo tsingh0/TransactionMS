@@ -90,7 +90,7 @@ public class Date implements Comparable<Date> {
 				return false;
 			} else
 				break;
-		case Month.Mar:
+		case Month.MAR:
 			if (this.day <= Month.DAYS_ODD) {
 				return true;
 			}

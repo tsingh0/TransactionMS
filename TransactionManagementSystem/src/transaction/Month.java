@@ -1,6 +1,8 @@
 package transaction;
+
 /**
  * Class designed to store the values associated with each month
+ * 
  * @author Kacper Murdzek, Taranvir Singh
  *
  */
@@ -8,7 +10,7 @@ public class Month {
 
 	public static final int JAN = 1;
 	public static final int FEB = 2;
-	public static final int Mar = 3;
+	public static final int MAR = 3;
 	public static final int APR = 4;
 	public static final int MAY = 5;
 	public static final int JUN = 6;

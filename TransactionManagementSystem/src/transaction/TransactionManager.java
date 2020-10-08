@@ -7,45 +7,45 @@ import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+
 /**
- * Transaction Manager handles the user inputs and is responsible for the the outputs of the program.
- * Transaction Manager has the ability to open a Checking, Saving, or Money Market account. As well as
- * close an existing account, deposit funds into an existing account, withdraw funds from an existing account,
- * and print the list of the accounts or account statements. The TransactionManager class reads input from 
- * a file that has the following commands.
+ * Transaction Manager handles the user inputs and is responsible for the the
+ * outputs of the program. Transaction Manager has the ability to open a
+ * Checking, Saving, or Money Market account. As well as close an existing
+ * account, deposit funds into an existing account, withdraw funds from an
+ * existing account, and print the list of the accounts or account statements.
+ * The TransactionManager class reads input from a file that has the following
+ * commands.
  * 
- * To open an account: Command 'O' following the account type 'C' - checking 'S' - savings 'M' - money market
+ * To open an account: Command 'O' following the account type 'C' - checking 'S'
+ * - savings 'M' - money market
  * 
- * OC John Doe 500 1/1/2020 false //boolean whether or not checking account has direct deposit
- * OS John Doe 500 1/1/2020 true //boolean whether or not the user is loyal
- * OM John Doe 500 1/1/2020 
+ * OC John Doe 500 1/1/2020 false //boolean whether or not checking account has
+ * direct deposit OS John Doe 500 1/1/2020 true //boolean whether or not the
+ * user is loyal OM John Doe 500 1/1/2020
  * 
- * To close an account: Command 'C' following the account type 'C' - checking 'S' - savings 'M' - money market
- * CC John Doe
- * CS John Doe
- * CM John Doe
+ * To close an account: Command 'C' following the account type 'C' - checking
+ * 'S' - savings 'M' - money market CC John Doe CS John Doe CM John Doe
  * 
- * To deposit into an account: Command 'D' following the account type 'C' - checking 'S' - savings 'M' - money market
- * DC John Doe 100
- * DS John Doe 100
- * DM John Doe 100
+ * To deposit into an account: Command 'D' following the account type 'C' -
+ * checking 'S' - savings 'M' - money market DC John Doe 100 DS John Doe 100 DM
+ * John Doe 100
  * 
- * To withdraw from an account: Command 'W' following the account type 'C' - checking 'S' - savings 'M' - money market
- * WC John Doe 100
- * WS John Doe 100
- * WM John Doe 100
+ * To withdraw from an account: Command 'W' following the account type 'C' -
+ * checking 'S' - savings 'M' - money market WC John Doe 100 WS John Doe 100 WM
+ * John Doe 100
  * 
- * 'P' commands print the list of accounts or print account statements
- * 'PA' - prints the list of accounts in the database
- * 'PD' - calculates the monthly interest with fees, and prints the account statements, sorted by 
- * 		  dates opened in ascending order.
- * 'PN' - same with 'PD', but sorted by last name in ascending order
+ * 'P' commands print the list of accounts or print account statements 'PA' -
+ * prints the list of accounts in the database 'PD' - calculates the monthly
+ * interest with fees, and prints the account statements, sorted by dates opened
+ * in ascending order. 'PN' - same with 'PD', but sorted by last name in
+ * ascending order
  * 
  * 'Q' - stops program execution
  * 
- * Input file should be entered into the console after "Enter the input file :" is displayed , 
- * input file should be a ".txt" file in the project folder. "test1.txt" is the sample test file
- * provided in the project folder.
+ * Input file should be entered into the console after "Enter the input file :"
+ * is displayed , input file should be a ".txt" file in the project folder.
+ * "test1.txt" is the sample test file provided in the project folder.
  * 
  * @author kacpermurdzek
  *
@@ -340,9 +340,10 @@ public class TransactionManager {
 		}
 
 	}
+
 	/**
-	 * MakeDate method creates a date object from a string
-	 * and returns it.
+	 * MakeDate method creates a date object from a string and returns it.
+	 * 
 	 * @param date string to be made a Date object
 	 * @return date as a Date object
 	 */
