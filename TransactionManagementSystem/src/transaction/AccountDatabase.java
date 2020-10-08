@@ -1,15 +1,23 @@
 package transaction;
-
 import java.text.DecimalFormat;
-
+/**
+ * AccountDatabase Class performs operations to keep database of Accounts in check.
+ * Has capabilities to add to the database, remove from the database, find an account within
+ * the database, deposit money into an account, withdrawal from an account, and sort the accounts.
+ * Account Database does the load of the work for keeping accounts in check.
+ * @author Kacper Murdzek, Taranvir Singh
+ *
+ */
 public class AccountDatabase {
 	private Account[] accounts = new Account[5];
 	private int size = 0;
 
 	/**
-	 * 
-	 * @param account
-	 * @return
+	 * Find method searches the Account array for the matching Account,
+	 * if the account is found it returns the index, if not found
+	 * method returns -1.
+	 * @param account to be found
+	 * @return int associated with the index
 	 */
 	private int find(Account account) {
 
@@ -28,11 +36,11 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
+	 * Grow method grows the Account array by 5.
 	 */
 	private void grow() {
 
-		Account[] doubledArray = new Account[accounts.length * 2];
+		Account[] doubledArray = new Account[accounts.length + 5];
 		for (int i = 0; i < accounts.length; i++) {
 			doubledArray[i] = accounts[i];
 		}
@@ -41,9 +49,9 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
-	 * @param account
-	 * @return
+	 * Add method adds an Account object to the Account Database array.
+	 * @param account to be added
+	 * @return if the account was added return true, if not then returns false
 	 */
 	public boolean add(Account account) {
 		for (int i = 0; i < accounts.length; i++) {
@@ -66,9 +74,9 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
-	 * @param account
-	 * @return
+	 * Remove method removes an Account object from the Account Database array.
+	 * @param account to be removed
+	 * @return if the account was removed return true, if not then returns false
 	 */
 	public boolean remove(Account account) {
 
@@ -86,10 +94,10 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
-	 * @param account
-	 * @param amount
-	 * @return
+	 * Deposit method increases the balance in the account by specified value
+	 * @param account to be deposited to
+	 * @param amount to be deposited
+	 * @return if the deposit is successful return true, if not then return false
 	 */
 	public boolean deposit(Account account, double amount) {
 
@@ -104,10 +112,10 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
-	 * @param account
-	 * @param amount
-	 * @return
+	 * Withdrawal method decreases the balance in the account by specified value
+	 * @param account to be withdrawal from
+	 * @param amount to withdrawal
+	 * @return if the withdrawal is successful return true, if not then return false
 	 */
 	public int withdrawal(Account account, double amount) {
 
@@ -134,7 +142,7 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
+	 * SortByDateOpen method sorts the array of accounts using insertion sort by dates ranging from least recent to most recent
 	 */
 	private void sortByDateOpen() {
 
@@ -153,7 +161,7 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
+	 * SortByLastName method sorts the array of accounts using insertion sort by last name from lexicographically least to greatest order.
 	 */
 	private void sortByLastName() {
 		for (int i = 1; i < accounts.length; ++i) {
@@ -171,7 +179,8 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
+	 * PrintByDateOpen method prints the account array by the date
+	 * that the accounts were opened least recent to most recent order.
 	 */
 	public void printByDateOpen() {
 
@@ -208,7 +217,7 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
+	 * PrintByLastName method prints the account array by last name from lexicographically least to greatest order.
 	 */
 	public void printByLastName() {
 
@@ -244,7 +253,7 @@ public class AccountDatabase {
 	}
 
 	/**
-	 * 
+	 * PrintAccounts methods prints the accounts within the AccountDatabase array
 	 */
 	public void printAccounts() {
 

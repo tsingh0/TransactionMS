@@ -1,5 +1,9 @@
 package transaction;
-
+/**
+ * Class designed to store the values associated with each month
+ * @author Kacper Murdzek, Taranvir Singh
+ *
+ */
 public class Month {
 
 	public static final int JAN = 1;
