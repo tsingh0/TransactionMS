@@ -43,16 +43,16 @@ public class SampleController {
 	    private TextArea output;
 
 	    @FXML
-	    private TextField firstName, lastName, balanceDeposit, balance, fname, lname, year, day, month;
-
+	    private TextField firstName, lastName, balanceDeposit, balance, fName, lName, year, day, month;
+	    @FXML
 	    String typedFname() {
-	    	return fname.getText();
+	    	return fName.getText();
 	    }
-	    
+	    @FXML
 	    String typedLname() {
-	    	return lname.getText();
+	    	return lName.getText();
 	    }
-	    
+	    @FXML
 	    double typedBalance() {
 	    	try {
 	    		double inputBalance = Double.parseDouble(balance.getText());
@@ -60,7 +60,7 @@ public class SampleController {
 	    	}catch(NumberFormatException e){
 	    		Alert alert = new Alert(AlertType.WARNING);
 	    		alert.setTitle("Error");
-	    		alert.setHeaderText("Non numeric data has been entered for field Balane");
+	    		alert.setHeaderText("Non numeric data has been entered for field Balance");
 	    		alert.setContentText("Please enter a number");
 	    		alert.showAndWait();
 	    		return -1;   		
@@ -68,6 +68,7 @@ public class SampleController {
 				
 
 	    }
+	    @FXML
 	    int typedYear() {
 	    	try {
 	    		int inputYear = Integer.parseInt(year.getText());
@@ -81,6 +82,7 @@ public class SampleController {
 	    		return -1;   		
 	    	}
 	    }
+	    @FXML
 	    int typedDay() {
 	    	try {
 	    		int inputDay = Integer.parseInt(day.getText());
@@ -94,6 +96,7 @@ public class SampleController {
 	    		return -1;   		
 	    	}
 	    }
+	    @FXML
 	    int typedMonth() {
 	    	try {
 	    		int inputMonth = Integer.parseInt(month.getText());
@@ -107,8 +110,8 @@ public class SampleController {
 	    		return -1;   		
 	    	}
 	    }
-	    void AccountCreator(MouseEvent event) {
-	    	output.appendText("hellow");
+	    @FXML
+	    void AccountCreator(ActionEvent event) {
 	    	if(checkedChecking()) {
 	    		Profile setup = new Profile(typedFname(),typedLname());
 	    		Date date = new Date(typedMonth(), typedDay(), typedYear());
@@ -117,7 +120,7 @@ public class SampleController {
 	    	}
 	    	
 	    }
-	    
+	    @FXML
 	    boolean checkedChecking() {
 	    	//when checking is checked we want to make loyalCutomer field not clickable
 	    	if(checking.isSelected()) {
@@ -125,17 +128,19 @@ public class SampleController {
 	    	}
 	    	return false;
 	    }
-	    
+	    @FXML
 	    boolean directDepositChecked() {
 	    	if(directDeposit.isPressed()) {
 	    		return true;
 	    	}
 	    	return false;
 	    }
+	    @FXML
 	    void checkedSavings(ActionEvent event) {
 	    	//when Savings is checked we want to make direct deposit not clickable
 	    	
 	    }
+	    @FXML
 	    void checkedMoneyMarket(ActionEvent event) {
 	    	//when MoneyMarket is checked we want to make neither loyal customer or direct deposit clickable
 	    	
