@@ -9,7 +9,6 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -47,7 +46,7 @@
                               <Label text="Date Open" GridPane.rowIndex="2" />
                               <Label text="Balanace" GridPane.rowIndex="3" />
                               <TextField fx:id="lName" onAction="#typedLname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <RadioButton fx:id="checking" mnemonicParsing="false" onAction="#checkedChecking" prefHeight="18.0" prefWidth="118.0" selected="true" text="Checkings" GridPane.columnIndex="2">
+                              <RadioButton fx:id="checking" mnemonicParsing="false" onAction="#checkedCheck" prefHeight="18.0" prefWidth="118.0" text="Checkings" GridPane.columnIndex="2">
                                  <GridPane.margin>
                                     <Insets />
                                  </GridPane.margin>
@@ -79,7 +78,7 @@
                                     <TextField fx:id="year" layoutX="71.0" layoutY="10.0" onAction="#typedYear" promptText="yyyy" />
                                  </children>
                               </HBox>
-                              <TextField fx:id="fName" onAction="#typedFname" GridPane.columnIndex="1" />
+                              <TextField fx:id="fName" onAction="#fnameField" GridPane.columnIndex="1" />
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
                                     <Label text="\$" />
@@ -87,8 +86,7 @@
                                  </children>
                               </HBox>
                               <Button fx:id="createAccount" mnemonicParsing="false" onAction="#AccountCreator" text="Create Account" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                              <Button mnemonicParsing="false" text="Delete Account" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                              <TextArea fx:id="output" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Button fx:id="deleteAccount" mnemonicParsing="false" onAction="#AccountDeleter" text="Delete Account" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                      </children>
@@ -171,8 +169,8 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="121.0" text="Import Database" />
-                              <Button mnemonicParsing="false" text="Export Database" GridPane.columnIndex="1" />
+                              <Button fx:id="importDatabase" mnemonicParsing="false" onAction="#importDatabaseFromFile" prefHeight="32.0" prefWidth="121.0" text="Import Database" />
+                              <Button fx:id="exportDatabase" mnemonicParsing="false" onAction="#exportDatabaseToFile" text="Export Database" GridPane.columnIndex="1" />
                               <MenuButton mnemonicParsing="false" text="Print Database" GridPane.columnIndex="2">
                                 <items>
                                   <MenuItem mnemonicParsing="false" text="By Last Name" />
