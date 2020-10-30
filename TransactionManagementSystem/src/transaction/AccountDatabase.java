@@ -62,12 +62,12 @@ public class AccountDatabase {
 
 		for (int i = 0; i < accounts.length; i++) {
 			if (accounts[i] != null && accounts[i].equals(account)) {
-				//System.out.println("Account is already in the database.");
+				// System.out.println("Account is already in the database.");
 				return false;
 			} else if (accounts[i] == null) {
 				accounts[i] = account;
 				size++;
-				//System.out.println("Account opened and added to the database.");
+				// System.out.println("Account opened and added to the database.");
 				break;
 			}
 
@@ -194,37 +194,37 @@ public class AccountDatabase {
 	 * were opened least recent to most recent order.
 	 */
 	public String printByDateOpen() {
-		String output="";
+		String output = "";
 		DecimalFormat df = new DecimalFormat("#,###,##0.00");
 
 		sortByDateOpen();
 
 		if (accounts[0] == null) {
-			output+="Database is empty.\n";
+			output += "Database is empty.\n";
 		} else {
 
-			output+=("--Printing statements by date opened--\n");
+			output += ("--Printing statements by date opened--\n");
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
 
-					output+=accounts[i].toString()+"\n";
+					output += accounts[i].toString() + "\n";
 
 					double monthInterest = accounts[i].monthlyInterest();
 
 					accounts[i].setBalance(
 							accounts[i].getBalance() + accounts[i].monthlyInterest() - accounts[i].monthlyFee());
 
-					output+=(String.format("-interest: $ " + df.format(monthInterest))+"\n");
-					output+=(String.format("-fee: $ " + df.format(accounts[i].monthlyFee()))+"\n");
-					output+=(String.format("-new balance: $ " + df.format(accounts[i].getBalance()))+"\n");
+					output += (String.format("-interest: $ " + df.format(monthInterest)) + "\n");
+					output += (String.format("-fee: $ " + df.format(accounts[i].monthlyFee())) + "\n");
+					output += (String.format("-new balance: $ " + df.format(accounts[i].getBalance())) + "\n");
 				}
 			}
 
-			output+=("--end of printing--\n");
+			output += ("--end of printing--\n");
 
 		}
-		
+
 		return output;
 	}
 
@@ -233,8 +233,8 @@ public class AccountDatabase {
 	 * lexicographically least to greatest order.
 	 */
 	public String printByLastName() {
-		
-		String output="";
+
+		String output = "";
 		DecimalFormat df = new DecimalFormat("#,###,##0.00");
 		sortByLastName();
 
@@ -242,28 +242,28 @@ public class AccountDatabase {
 			output += "Database is empty.\n";
 		} else {
 
-			output+="--Printing statements by last name--\n";
+			output += "--Printing statements by last name--\n";
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
 
-					output+=accounts[i].toString()+"\n";
+					output += accounts[i].toString() + "\n";
 
 					double monthInterest = accounts[i].monthlyInterest();
 
 					accounts[i].setBalance(
 							accounts[i].getBalance() + accounts[i].monthlyInterest() - accounts[i].monthlyFee());
 
-					output+=(String.format("-interest: $ " + df.format(monthInterest))+"\n");
-					output+=(String.format("-fee: $ " + df.format(accounts[i].monthlyFee()))+"\n");
-					output+=(String.format("-new balance: $ " + df.format(accounts[i].getBalance()))+"\n");
+					output += (String.format("-interest: $ " + df.format(monthInterest)) + "\n");
+					output += (String.format("-fee: $ " + df.format(accounts[i].monthlyFee())) + "\n");
+					output += (String.format("-new balance: $ " + df.format(accounts[i].getBalance())) + "\n");
 				}
 			}
 
-			output+="--end of printing--\n";
+			output += "--end of printing--\n";
 
 		}
-		
+
 		return output;
 
 	}
@@ -272,21 +272,21 @@ public class AccountDatabase {
 	 * PrintAccounts methods prints the accounts within the AccountDatabase array
 	 */
 	public String printAccounts() {
-		String output="";
+		String output = "";
 		if (accounts[0] == null) {
-			output+="Database is empty.\n";
+			output += "Database is empty.\n";
 		} else {
 
-			output+="--Listing accounts in the database--\n";
+			output += "--Listing accounts in the database--\n";
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
-					output+=accounts[i].toString()+"\n";
+					output += accounts[i].toString() + "\n";
 				}
 			}
-			output+="--end of listing--\n";
+			output += "--end of listing--\n";
 		}
-		
+
 		return output;
 	}
 
