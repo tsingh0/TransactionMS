@@ -59,14 +59,15 @@ public class AccountDatabase {
 	 * @return if the account was added return true, if not then returns false
 	 */
 	public boolean add(Account account) {
+
 		for (int i = 0; i < accounts.length; i++) {
 			if (accounts[i] != null && accounts[i].equals(account)) {
-				System.out.println("Account is already in the database.");
-				break;
+				//System.out.println("Account is already in the database.");
+				return false;
 			} else if (accounts[i] == null) {
 				accounts[i] = account;
 				size++;
-				System.out.println("Account opened and added to the database.");
+				//System.out.println("Account opened and added to the database.");
 				break;
 			}
 
@@ -75,7 +76,7 @@ public class AccountDatabase {
 			grow();
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -192,95 +193,101 @@ public class AccountDatabase {
 	 * PrintByDateOpen method prints the account array by the date that the accounts
 	 * were opened least recent to most recent order.
 	 */
-	public void printByDateOpen() {
-
+	public String printByDateOpen() {
+		String output="";
 		DecimalFormat df = new DecimalFormat("#,###,##0.00");
 
 		sortByDateOpen();
 
 		if (accounts[0] == null) {
-			System.out.println("Database is empty.");
+			output+="Database is empty.\n";
 		} else {
 
-			System.out.println("\n--Printing statements by date opened--");
+			output+=("--Printing statements by date opened--\n");
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
 
-					System.out.println("\n" + accounts[i].toString());
+					output+=accounts[i].toString()+"\n";
 
 					double monthInterest = accounts[i].monthlyInterest();
 
 					accounts[i].setBalance(
 							accounts[i].getBalance() + accounts[i].monthlyInterest() - accounts[i].monthlyFee());
 
-					System.out.println(String.format("-interest: $ " + df.format(monthInterest)));
-					System.out.println(String.format("-fee: $ " + df.format(accounts[i].monthlyFee())));
-					System.out.println(String.format("-new balance: $ " + df.format(accounts[i].getBalance())));
+					output+=(String.format("-interest: $ " + df.format(monthInterest))+"\n");
+					output+=(String.format("-fee: $ " + df.format(accounts[i].monthlyFee()))+"\n");
+					output+=(String.format("-new balance: $ " + df.format(accounts[i].getBalance()))+"\n");
 				}
 			}
 
-			System.out.println("--end of printing--");
+			output+=("--end of printing--\n");
 
 		}
-
+		
+		return output;
 	}
 
 	/**
 	 * PrintByLastName method prints the account array by last name from
 	 * lexicographically least to greatest order.
 	 */
-	public void printByLastName() {
-
+	public String printByLastName() {
+		
+		String output="";
 		DecimalFormat df = new DecimalFormat("#,###,##0.00");
 		sortByLastName();
 
 		if (accounts[0] == null) {
-			System.out.println("Database is empty.");
+			output += "Database is empty.\n";
 		} else {
 
-			System.out.println("\n--Printing statements by last name--");
+			output+="--Printing statements by last name--\n";
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
 
-					System.out.println("\n" + accounts[i].toString());
+					output+=accounts[i].toString()+"\n";
 
 					double monthInterest = accounts[i].monthlyInterest();
 
 					accounts[i].setBalance(
 							accounts[i].getBalance() + accounts[i].monthlyInterest() - accounts[i].monthlyFee());
 
-					System.out.println(String.format("-interest: $ " + df.format(monthInterest)));
-					System.out.println(String.format("-fee: $ " + df.format(accounts[i].monthlyFee())));
-					System.out.println(String.format("-new balance: $ " + df.format(accounts[i].getBalance())));
+					output+=(String.format("-interest: $ " + df.format(monthInterest))+"\n");
+					output+=(String.format("-fee: $ " + df.format(accounts[i].monthlyFee()))+"\n");
+					output+=(String.format("-new balance: $ " + df.format(accounts[i].getBalance()))+"\n");
 				}
 			}
 
-			System.out.println("--end of printing--");
+			output+="--end of printing--\n";
 
 		}
+		
+		return output;
 
 	}
 
 	/**
 	 * PrintAccounts methods prints the accounts within the AccountDatabase array
 	 */
-	public void printAccounts() {
-
+	public String printAccounts() {
+		String output="";
 		if (accounts[0] == null) {
-			System.out.println("Database is empty.");
+			output+="Database is empty.\n";
 		} else {
 
-			System.out.println("--Listing accounts in the database--");
+			output+="--Listing accounts in the database--\n";
 
 			for (int i = 0; i < accounts.length; i++) {
 				if (accounts[i] != null) {
-					System.out.println(accounts[i].toString());
+					output+=accounts[i].toString()+"\n";
 				}
 			}
-			System.out.println("--end of listing--");
+			output+="--end of listing--\n";
 		}
+		
+		return output;
 	}
 
 }
