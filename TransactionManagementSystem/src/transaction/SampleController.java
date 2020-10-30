@@ -81,11 +81,7 @@ public class SampleController {
 			}
 			return inputBalance;
 		} catch (NumberFormatException e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Error");
-			alert.setHeaderText("Non numeric data has been entered for field Balance.");
-			alert.setContentText("Please enter a number.");
-			alert.showAndWait();
+
 			return -1;
 		}
 
@@ -97,11 +93,6 @@ public class SampleController {
 			int inputYear = Integer.parseInt(year.getText());
 			return inputYear;
 		} catch (NumberFormatException e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Error");
-			alert.setHeaderText("Non numeric data has been entered for field Year.");
-			alert.setContentText("Please enter a number.");
-			alert.showAndWait();
 			return -1;
 		}
 	}
@@ -112,11 +103,6 @@ public class SampleController {
 			int inputDay = Integer.parseInt(day.getText());
 			return inputDay;
 		} catch (NumberFormatException e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Error");
-			alert.setHeaderText("Non numeric data has been entered for field Day.");
-			alert.setContentText("Please enter a number.");
-			alert.showAndWait();
 			return -1;
 		}
 	}
@@ -127,11 +113,6 @@ public class SampleController {
 			int inputMonth = Integer.parseInt(month.getText());
 			return inputMonth;
 		} catch (NumberFormatException e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Error");
-			alert.setHeaderText("Non numeric data has been entered for field Month.");
-			alert.setContentText("Please enter a number.");
-			alert.showAndWait();
 			return -1;
 		}
 	}
@@ -140,7 +121,7 @@ public class SampleController {
 	// maybe adding an Alert that an account was added successfully would be helpful
 	void AccountCreator(ActionEvent event) {
 		if (typedMonth() != -1 && typedDay() != -1 && typedYear() != -1 && typedBalance() != -1) {
-
+			
 			if (checkedCheckingAccount()) {
 				Profile setup = new Profile(typedFname(), typedLname());
 				Date date = new Date(typedMonth(), typedDay(), typedYear());
@@ -176,7 +157,7 @@ public class SampleController {
 				} else {
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setTitle("Error");
-					alert.setHeaderText("Unavailable to make an Account with data provided.");
+					alert.setHeaderText("Unavailable to make an account with data provided.");
 					alert.setContentText("Please check information provided again.");
 					alert.showAndWait();
 				}
@@ -195,10 +176,31 @@ public class SampleController {
 				} else {
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setTitle("Error");
-					alert.setHeaderText("Unavailable to make an Account with data provided.");
+					alert.setHeaderText("Unavailable to make an account with data provided.");
 					alert.setContentText("Please check information provided again.");
 					alert.showAndWait();
 				}
+			}else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Please select an account type.");
+				//alert.setContentText("Please enter a number.");
+				alert.showAndWait();
+			}
+		}else{
+			if(typedMonth() == -1 || typedDay() == -1 || typedYear() == -1) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Error");
+			alert.setHeaderText("Non numeric data has been entered in the Date field.");
+			alert.setContentText("Please enter a number.");
+			alert.showAndWait();
+			}
+			if(typedBalance() == -1) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Non numeric data has been entered for field Balance.");
+				alert.setContentText("Please enter a number.");
+				alert.showAndWait();
 			}
 		}
 	}
@@ -270,7 +272,7 @@ public class SampleController {
 						boolean directDeposit = scanner.nextBoolean();
 
 						if (dateCreated.isValid() == false) {
-							System.out.println(dateCreated + " is not a valid date!");
+							
 							break;
 						} else {
 							boolean added = database.add(new Checking(newProfile, ammount, dateCreated, directDeposit));			
@@ -288,7 +290,7 @@ public class SampleController {
 						
 						boolean isLoyal = scanner.nextBoolean();
 						if (dateCreated.isValid() == false) {
-							System.out.println(dateCreated + " is not a valid date!");
+					
 							break;
 						} else {
 							boolean added = database.add(new Saving(newSavingsProfile, savingsAmmount, dateCreated, isLoyal));
@@ -304,7 +306,7 @@ public class SampleController {
 						dateCreated = makeDate(moneyMarketDate);
 						int withdrawals = scanner.nextInt();
 						if (dateCreated.isValid() == false) {
-							System.out.println(dateCreated + " is not a valid date!");
+					
 							break;
 						} else {
 							boolean added = database.add(new MoneyMarket(newMoneyMarketProfile, moneyMarketAmmount, dateCreated, withdrawals));
