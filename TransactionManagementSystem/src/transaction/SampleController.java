@@ -2,6 +2,7 @@ package transaction;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -348,6 +349,35 @@ public class SampleController {
 				new ExtensionFilter("All Files", "*.*"));
 		Stage stage = new Stage();
 		File targetFile = chooser.showSaveDialog(stage);
+		FileWriter document;
+		try {
+			document = new FileWriter(targetFile, true);
+			Account[] accounts = database.getAccounts();
+			
+			
+			for(int i = 0; i< database.getSize(); i++) {
+				
+				if(accounts[i] instanceof Checking) {
+					Checking toWrite = (Checking)accounts[i];
+					document.write("C"+","+toWrite.getHolder().toString()+","+ toWrite.getBalance()+","+toWrite.getDateOpen()+","+toWrite.isDirectDeposit());
+					
+				}else if(accounts[i] instanceof Saving) {
+					Saving toWrite = (Saving) accounts[i];
+					document.write("S"+","+toWrite.getHolder().toString()+","+ toWrite.getBalance()+","+toWrite.getDateOpen()+","+toWrite.isLoyal());
+					
+				}else if(accounts[i] instanceof MoneyMarket) {
+					MoneyMarket toWrite = (MoneyMarket) accounts[i];
+					document.write("M"+","+toWrite.getHolder().toString()+","+ toWrite.getBalance()+","+toWrite.getDateOpen()+","+toWrite.getWithdrawals());
+				}
+				document.write("\n");
+			}
+			document.flush();
+			document.close();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+
 	}
 
 	@FXML

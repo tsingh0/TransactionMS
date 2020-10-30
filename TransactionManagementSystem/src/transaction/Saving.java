@@ -33,7 +33,7 @@ public class Saving extends Account {
 	@Override
 	public double monthlyInterest() {
 
-		if (this.isLoyal == true) {
+		if (this.isLoyal() == true) {
 			return this.getBalance() * (0.0035 / 12);
 		} else
 			return this.getBalance() * (0.0025 / 12);
@@ -47,7 +47,7 @@ public class Saving extends Account {
 	@Override
 	public double monthlyFee() {
 
-		if (this.isLoyal == true || this.getBalance() >= 300) {
+		if (this.isLoyal() == true || this.getBalance() >= 300) {
 			return 0;
 		}
 		return 5;
@@ -76,12 +76,16 @@ public class Saving extends Account {
 	@Override
 	public String toString() {
 
-		if (this.isLoyal == true) {
+		if (this.isLoyal() == true) {
 			return "*Savings" + super.toString() + "*special Savings account*";
 		}
 
 		return "*Savings" + super.toString();
 
+	}
+
+	public boolean isLoyal() {
+		return isLoyal;
 	}
 
 }

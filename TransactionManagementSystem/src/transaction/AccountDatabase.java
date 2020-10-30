@@ -25,11 +25,11 @@ public class AccountDatabase {
 	 */
 	private int find(Account account) {
 
-		for (int i = 0; i < accounts.length; i++) {
+		for (int i = 0; i < getAccounts().length; i++) {
 
-			if (accounts[i] != null) {
+			if (getAccounts()[i] != null) {
 
-				if (accounts[i].equals(account)) {
+				if (getAccounts()[i].equals(account)) {
 					return i;
 				}
 			}
@@ -44,9 +44,9 @@ public class AccountDatabase {
 	 */
 	private void grow() {
 
-		Account[] doubledArray = new Account[accounts.length + 5];
-		for (int i = 0; i < accounts.length; i++) {
-			doubledArray[i] = accounts[i];
+		Account[] doubledArray = new Account[getAccounts().length + 5];
+		for (int i = 0; i < getAccounts().length; i++) {
+			doubledArray[i] = getAccounts()[i];
 		}
 		accounts = doubledArray;
 
@@ -60,19 +60,19 @@ public class AccountDatabase {
 	 */
 	public boolean add(Account account) {
 
-		for (int i = 0; i < accounts.length; i++) {
-			if (accounts[i] != null && accounts[i].equals(account)) {
+		for (int i = 0; i < getAccounts().length; i++) {
+			if (getAccounts()[i] != null && getAccounts()[i].equals(account)) {
 				// System.out.println("Account is already in the database.");
 				return false;
-			} else if (accounts[i] == null) {
-				accounts[i] = account;
-				size++;
+			} else if (getAccounts()[i] == null) {
+				getAccounts()[i] = account;
+				size = getSize() + 1;
 				// System.out.println("Account opened and added to the database.");
 				break;
 			}
 
 		}
-		if (size == accounts.length) {
+		if (getSize() == getAccounts().length) {
 			grow();
 		}
 
@@ -89,10 +89,10 @@ public class AccountDatabase {
 
 		if (find(account) != -1) {
 
-			accounts[find(account)] = accounts[size - 1];
-			accounts[size - 1] = null;
+			getAccounts()[find(account)] = getAccounts()[getSize() - 1];
+			getAccounts()[getSize() - 1] = null;
 
-			size--;
+			size = getSize() - 1;
 
 			return true;
 		}
@@ -112,7 +112,7 @@ public class AccountDatabase {
 		int index = find(account);
 
 		if (index != -1) {
-			accounts[index].credit(amount);
+			getAccounts()[index].credit(amount);
 			return true;
 		}
 
@@ -134,17 +134,17 @@ public class AccountDatabase {
 			return -1; // account doesn't exist
 		}
 
-		else if (accounts[index].getBalance() - amount < 0) {
+		else if (getAccounts()[index].getBalance() - amount < 0) {
 
 			return 1; // insufficient funds
 		} else {
 
-			if (accounts[index] instanceof MoneyMarket) {
-				MoneyMarket temp = (MoneyMarket) accounts[index];
+			if (getAccounts()[index] instanceof MoneyMarket) {
+				MoneyMarket temp = (MoneyMarket) getAccounts()[index];
 				temp.setWithdrawals(1);
 			}
 
-			accounts[index].debit(amount);
+			getAccounts()[index].debit(amount);
 			return 0; // withdrawal successful
 		}
 
@@ -156,15 +156,15 @@ public class AccountDatabase {
 	 */
 	private void sortByDateOpen() {
 
-		for (int i = 1; i < accounts.length; ++i) {
-			Account key = accounts[i];
+		for (int i = 1; i < getAccounts().length; ++i) {
+			Account key = getAccounts()[i];
 			int sorted = i - 1;
 			if (key != null) {
-				while (sorted >= 0 && key.getDateOpen().compareTo(accounts[sorted].getDateOpen()) < 0) {
-					accounts[sorted + 1] = accounts[sorted];
+				while (sorted >= 0 && key.getDateOpen().compareTo(getAccounts()[sorted].getDateOpen()) < 0) {
+					getAccounts()[sorted + 1] = getAccounts()[sorted];
 					sorted = sorted - 1;
 				}
-				accounts[sorted + 1] = key;
+				getAccounts()[sorted + 1] = key;
 			}
 		}
 
@@ -175,16 +175,16 @@ public class AccountDatabase {
 	 * last name from lexicographically least to greatest order.
 	 */
 	private void sortByLastName() {
-		for (int i = 1; i < accounts.length; ++i) {
-			Account key = accounts[i];
+		for (int i = 1; i < getAccounts().length; ++i) {
+			Account key = getAccounts()[i];
 			int sorted = i - 1;
 			if (key != null) {
 				while (sorted >= 0
-						&& key.getHolder().getLname().compareTo(accounts[sorted].getHolder().getLname()) < 0) {
-					accounts[sorted + 1] = accounts[sorted];
+						&& key.getHolder().getLname().compareTo(getAccounts()[sorted].getHolder().getLname()) < 0) {
+					getAccounts()[sorted + 1] = getAccounts()[sorted];
 					sorted = sorted - 1;
 				}
-				accounts[sorted + 1] = key;
+				getAccounts()[sorted + 1] = key;
 			}
 		}
 	}
@@ -199,25 +199,25 @@ public class AccountDatabase {
 
 		sortByDateOpen();
 
-		if (accounts[0] == null) {
+		if (getAccounts()[0] == null) {
 			output += "Database is empty.\n";
 		} else {
 
 			output += ("--Printing statements by date opened--\n");
 
-			for (int i = 0; i < accounts.length; i++) {
-				if (accounts[i] != null) {
+			for (int i = 0; i < getAccounts().length; i++) {
+				if (getAccounts()[i] != null) {
 
-					output += accounts[i].toString() + "\n";
+					output += getAccounts()[i].toString() + "\n";
 
-					double monthInterest = accounts[i].monthlyInterest();
+					double monthInterest = getAccounts()[i].monthlyInterest();
 
-					accounts[i].setBalance(
-							accounts[i].getBalance() + accounts[i].monthlyInterest() - accounts[i].monthlyFee());
+					getAccounts()[i].setBalance(
+							getAccounts()[i].getBalance() + getAccounts()[i].monthlyInterest() - getAccounts()[i].monthlyFee());
 
 					output += (String.format("-interest: $ " + df.format(monthInterest)) + "\n");
-					output += (String.format("-fee: $ " + df.format(accounts[i].monthlyFee())) + "\n");
-					output += (String.format("-new balance: $ " + df.format(accounts[i].getBalance())) + "\n");
+					output += (String.format("-fee: $ " + df.format(getAccounts()[i].monthlyFee())) + "\n");
+					output += (String.format("-new balance: $ " + df.format(getAccounts()[i].getBalance())) + "\n");
 				}
 			}
 
@@ -238,25 +238,25 @@ public class AccountDatabase {
 		DecimalFormat df = new DecimalFormat("#,###,##0.00");
 		sortByLastName();
 
-		if (accounts[0] == null) {
+		if (getAccounts()[0] == null) {
 			output += "Database is empty.\n";
 		} else {
 
 			output += "--Printing statements by last name--\n";
 
-			for (int i = 0; i < accounts.length; i++) {
-				if (accounts[i] != null) {
+			for (int i = 0; i < getAccounts().length; i++) {
+				if (getAccounts()[i] != null) {
 
-					output += accounts[i].toString() + "\n";
+					output += getAccounts()[i].toString() + "\n";
 
-					double monthInterest = accounts[i].monthlyInterest();
+					double monthInterest = getAccounts()[i].monthlyInterest();
 
-					accounts[i].setBalance(
-							accounts[i].getBalance() + accounts[i].monthlyInterest() - accounts[i].monthlyFee());
+					getAccounts()[i].setBalance(
+							getAccounts()[i].getBalance() + getAccounts()[i].monthlyInterest() - getAccounts()[i].monthlyFee());
 
 					output += (String.format("-interest: $ " + df.format(monthInterest)) + "\n");
-					output += (String.format("-fee: $ " + df.format(accounts[i].monthlyFee())) + "\n");
-					output += (String.format("-new balance: $ " + df.format(accounts[i].getBalance())) + "\n");
+					output += (String.format("-fee: $ " + df.format(getAccounts()[i].monthlyFee())) + "\n");
+					output += (String.format("-new balance: $ " + df.format(getAccounts()[i].getBalance())) + "\n");
 				}
 			}
 
@@ -273,21 +273,35 @@ public class AccountDatabase {
 	 */
 	public String printAccounts() {
 		String output = "";
-		if (accounts[0] == null) {
+		if (getAccounts()[0] == null) {
 			output += "Database is empty.\n";
 		} else {
 
 			output += "--Listing accounts in the database--\n";
 
-			for (int i = 0; i < accounts.length; i++) {
-				if (accounts[i] != null) {
-					output += accounts[i].toString() + "\n";
+			for (int i = 0; i < getAccounts().length; i++) {
+				if (getAccounts()[i] != null) {
+					output += getAccounts()[i].toString() + "\n";
 				}
 			}
 			output += "--end of listing--\n";
 		}
 
 		return output;
+	}
+	/**
+	 * Gets the amount of accounts in the AccountDatabase
+	 * @return int size
+	 */
+	public int getSize() {
+		return size;
+	}
+	/**
+	 * Gets the accounts in the database
+	 * @return array of the accounts
+	 */
+	public Account[] getAccounts() {
+		return accounts;
 	}
 
 }

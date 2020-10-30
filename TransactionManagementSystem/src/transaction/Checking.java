@@ -47,7 +47,7 @@ public class Checking extends Account {
 	@Override
 	public double monthlyFee() {
 
-		if (this.directDeposit == true || this.getBalance() >= 1500) {
+		if (this.isDirectDeposit() == true || this.getBalance() >= 1500) {
 			return 0;
 		}
 
@@ -78,12 +78,16 @@ public class Checking extends Account {
 	@Override
 	public String toString() {
 
-		if (this.directDeposit == true) {
+		if (this.isDirectDeposit() == true) {
 			return "*Checking" + super.toString() + "*direct deposit account*";
 		}
 
 		return "*Checking" + super.toString();
 
+	}
+
+	public boolean isDirectDeposit() {
+		return directDeposit;
 	}
 
 }
