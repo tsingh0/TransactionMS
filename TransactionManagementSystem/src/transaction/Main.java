@@ -19,6 +19,7 @@ public class Main extends Application {
 			primaryStage.setTitle("Transaction Manager");
 		} catch(Exception e) {
 			e.printStackTrace();
+			
 		}
 	}
 	
