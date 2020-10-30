@@ -46,7 +46,23 @@
                               <Label text="Last Name" GridPane.rowIndex="1" />
                               <Label text="Date Open" GridPane.rowIndex="2" />
                               <Label text="Balanace" GridPane.rowIndex="3" />
+                              <TextField fx:id="fName" onAction="#fnameField" GridPane.columnIndex="1" />
                               <TextField fx:id="lName" onAction="#typedLname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <children>
+                                    <TextField fx:id="month" onAction="#typedMonth" promptText="mm" />
+                                    <Label text="/" />
+                                    <TextField fx:id="day" layoutX="10.0" layoutY="10.0" onAction="#typedDay" promptText="dd" />
+                                    <Label layoutX="49.0" layoutY="31.0" text="/" />
+                                    <TextField fx:id="year" layoutX="71.0" layoutY="10.0" onAction="#typedYear" promptText="yyyy" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <children>
+                                    <Label text="\$" />
+                                    <TextField fx:id="balance" onAction="#typedBalance" />
+                                 </children>
+                              </HBox>
                               <RadioButton fx:id="checking" mnemonicParsing="false" onAction="#checkedCheck" prefHeight="18.0" prefWidth="118.0" text="Checkings" GridPane.columnIndex="2">
                                  <GridPane.margin>
                                     <Insets />
@@ -63,29 +79,13 @@
                                     <Insets left="10.0" />
                                  </padding>
                               </RadioButton>
-                              <CheckBox fx:id="loyalCustomer" mnemonicParsing="false" prefHeight="15.0" prefWidth="107.0" text="Loyal Customer" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                              <CheckBox fx:id="directDeposit" mnemonicParsing="false" prefHeight="17.0" prefWidth="109.0" text="Direct Deposit" GridPane.columnIndex="3" />
                               <RadioButton fx:id="moneyMarket" mnemonicParsing="false" onAction="#checkedMoneyMarket" prefHeight="18.0" prefWidth="118.0" text="Money Market" toggleGroup="$toggleGroup1" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </RadioButton>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <children>
-                                    <TextField fx:id="month" onAction="#typedMonth" promptText="mm" />
-                                    <Label text="/" />
-                                    <TextField fx:id="day" layoutX="10.0" layoutY="10.0" onAction="#typedDay" promptText="dd" />
-                                    <Label layoutX="49.0" layoutY="31.0" text="/" />
-                                    <TextField fx:id="year" layoutX="71.0" layoutY="10.0" onAction="#typedYear" promptText="yyyy" />
-                                 </children>
-                              </HBox>
-                              <TextField fx:id="fName" onAction="#fnameField" GridPane.columnIndex="1" />
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <children>
-                                    <Label text="\$" />
-                                    <TextField fx:id="balance" onAction="#typedBalance" />
-                                 </children>
-                              </HBox>
+                              <CheckBox fx:id="directDeposit" mnemonicParsing="false" prefHeight="17.0" prefWidth="109.0" text="Direct Deposit" GridPane.columnIndex="3" />
+                              <CheckBox fx:id="loyalCustomer" mnemonicParsing="false" prefHeight="15.0" prefWidth="107.0" text="Loyal Customer" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                               <Button fx:id="createAccount" mnemonicParsing="false" onAction="#AccountCreator" text="Create Account" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                               <Button fx:id="deleteAccount" mnemonicParsing="false" onAction="#AccountDeleter" text="Delete Account" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                            </children>

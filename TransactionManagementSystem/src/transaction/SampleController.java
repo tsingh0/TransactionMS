@@ -1,7 +1,9 @@
 package transaction;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +26,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import java.text.DecimalFormat;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class SampleController {
 
@@ -234,13 +239,120 @@ public class SampleController {
 
 	@FXML
 	void importDatabaseFromFile(ActionEvent event) {
-		DirectoryChooser chooser = new DirectoryChooser();
-		FileChooser fileChooser = new FileChooser();
-		chooser.setTitle("Open Source File for the Import");
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
-				new ExtensionFilter("All Files", "*.*"));
-		Stage stage = new Stage();
-		File sourceFile = fileChooser.showOpenDialog(stage);
+		
+		//FileChooser fileChooser = new FileChooser();
+		//fileChooser.setTitle("Open Source File for the Import");
+		//fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
+		//		new ExtensionFilter("All Files", "*.*"));	
+		//Stage stage = new Stage();
+		File sourceFile = new File("database.txt");
+		try {
+		//File sourceFile = fileChooser.showOpenDialog(stage);	
+			Scanner scanner = new Scanner(sourceFile);
+			try {
+			scanner.useDelimiter("\\s*,\\s*");
+			
+			while(scanner.hasNext()) {
+				String choice = scanner.next();
+				char first = choice.charAt(0);
+				System.out.println(choice);
+				Date dateCreated;
+
+				switch (first) {
+					case 'C':
+						String fname = scanner.next();
+						System.out.println(fname);
+						String lname = scanner.next();
+						System.out.println(lname);
+						Profile newProfile = new Profile(fname, lname);
+
+						double ammount = scanner.nextDouble();
+
+						String date = scanner.next();
+						dateCreated = makeDate(date);
+
+						boolean directDeposit = false;
+						String isDirectDeposit = scanner.next();
+						if(isDirectDeposit.equals("true")) {
+							directDeposit = true;
+						}else {
+							directDeposit = false;
+						}
+
+						if (dateCreated.isValid() == false) {
+							System.out.println(dateCreated + " is not a valid date!");
+							break;
+						} else {
+							boolean added = database.add(new Checking(newProfile, ammount, dateCreated, directDeposit));
+						}
+						break;
+
+					case 'S':
+						String savingsFname = scanner.next();
+						System.out.println(savingsFname);
+						String savingsLname = scanner.next();
+						System.out.println(savingsLname);
+						Profile newSavingsProfile = new Profile(savingsFname, savingsLname);
+
+						double savingsAmmount = scanner.nextDouble();
+						System.out.println(savingsAmmount);
+						String savingsDate = scanner.next();
+						System.out.println(savingsDate);
+						dateCreated = makeDate(savingsDate);
+						
+						String isLoyalString = scanner.next();
+						boolean isLoyal = false;
+						if(isLoyalString.equals("true")) {
+							isLoyal = true;
+						}else {
+							isLoyal = false;
+						}
+						System.out.println(isLoyal);
+						System.out.println("bit" +dateCreated.toString() + dateCreated.isValid());
+						if (dateCreated.isValid() == false) {
+							System.out.println(dateCreated + " is not a valid date!");
+							break;
+						} else {
+							boolean added = database.add(new Saving(newSavingsProfile, savingsAmmount, dateCreated, isLoyal));
+						}
+						break;
+					case 'M':
+						String moneyMarketFname = scanner.next();
+						String moneyMarketLname = scanner.next();
+						Profile newMoneyMarketProfile = new Profile(moneyMarketFname, moneyMarketLname);
+
+						double moneyMarketAmmount = scanner.nextDouble();
+
+						String moneyMarketDate = scanner.next();
+						dateCreated = makeDate(moneyMarketDate);
+						int withdrawals = scanner.nextInt();
+						if (dateCreated.isValid() == false) {
+							System.out.println(dateCreated + " is not a valid date!");
+							break;
+						} else {
+							boolean added = database.add(new MoneyMarket(newMoneyMarketProfile, moneyMarketAmmount, dateCreated, withdrawals));
+						}
+						break;
+					default:
+						//System.out.println("Command " + "'" + first + "" + second + "' not supported!");
+						//scanner.nextLine();
+					}
+				}
+			scanner.close();
+			}catch(InputMismatchException e) {
+				scanner.close();
+			}
+					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		}
+		
+		
+			
+	
+		
 		// have to write code to actually read the file
 
 	}
@@ -404,6 +516,7 @@ public class SampleController {
 		}
 	}
 
+
 	@FXML
 	void withdrawalMaker(ActionEvent event) {
 		Profile withdrawler = new Profile(firstName.getText(), lastName.getText());
@@ -440,5 +553,26 @@ public class SampleController {
 		}
 
 	}
-
+	
+	/**
+	 * MakeDate method creates a date object from a string and returns it.
+	 * 
+	 * @param date string to be made a Date object
+	 * @return date as a Date object
+	 */
+	private static Date makeDate(String date) {
+		StringTokenizer dateToken = new StringTokenizer(date, "/", false);
+		Date dateForm = null;
+		while (dateToken.hasMoreTokens()) {
+			String monthString = dateToken.nextToken();
+			int month = Integer.parseInt(monthString);
+			String dayString = dateToken.nextToken();
+			int day = Integer.parseInt(dayString);
+			String yearString = dateToken.nextToken();
+			int year = Integer.parseInt(yearString);
+			dateForm = new Date(month, day, year);
+		}
+		return dateForm;
+	}
 }
+	
