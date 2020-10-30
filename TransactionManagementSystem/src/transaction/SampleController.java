@@ -246,11 +246,12 @@ public class SampleController {
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
 			new ExtensionFilter("All Files", "*.*"));	
 		Stage stage = new Stage();
-		File sourceFile = fileChooser.showOpenDialog(stage);
+		//File sourceFile = fileChooser.showOpenDialog(stage);
 		try {
-		//File sourceFile = fileChooser.showOpenDialog(stage);	
-			Scanner scanner = new Scanner(sourceFile);
+		File sourceFile = fileChooser.showOpenDialog(stage);	
+		Scanner scanner = new Scanner(sourceFile);
 			try {
+			
 			scanner.useDelimiter("\\s*,|\\R\\s*");
 						
 			while(scanner.hasNext()) {
@@ -265,7 +266,6 @@ public class SampleController {
 						double ammount = scanner.nextDouble();
 						String date = scanner.next();
 						dateCreated = makeDate(date);
-
 						boolean directDeposit = scanner.nextBoolean();
 
 						if (dateCreated.isValid() == false) {
@@ -316,20 +316,25 @@ public class SampleController {
 					}
 				
 				}
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Success");
+			alert.setHeaderText("File was successfully imported.");
+			alert.setContentText("Congratulations!");
+			alert.showAndWait();
 			scanner.close();
-			}catch(InputMismatchException e) {
+		}catch(InputMismatchException e) {
 				scanner.close();
-			}
-					
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
 		}
-		
-		
+					
+		} catch (NullPointerException e) {
 			
-	
+			//e.printStackTrace();
+		} catch (FileNotFoundException e1) {
+			
+			//e1.printStackTrace();
+		}
+
+					
 		
 		// have to write code to actually read the file
 
