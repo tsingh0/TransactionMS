@@ -203,21 +203,21 @@ public class AccountDatabase {
 			output += "Database is empty.\n";
 		} else {
 
-			output += ("--Printing statements by date opened--\n");
+			output += ("\n--Printing statements by date opened--\n");
 
 			for (int i = 0; i < getAccounts().length; i++) {
 				if (getAccounts()[i] != null) {
 
-					output += getAccounts()[i].toString() + "\n";
+					output += "\n"+getAccounts()[i].toString();
 
 					double monthInterest = getAccounts()[i].monthlyInterest();
 
 					getAccounts()[i].setBalance(
 							getAccounts()[i].getBalance() + getAccounts()[i].monthlyInterest() - getAccounts()[i].monthlyFee());
 
-					output += (String.format("-interest: $ " + df.format(monthInterest)) + "\n");
-					output += (String.format("-fee: $ " + df.format(getAccounts()[i].monthlyFee())) + "\n");
-					output += (String.format("-new balance: $ " + df.format(getAccounts()[i].getBalance())) + "\n");
+					output += (String.format("\n-interest: $ " + df.format(monthInterest)));
+					output += (String.format("\n-fee: $ " + df.format(getAccounts()[i].monthlyFee())));
+					output += (String.format("\n-new balance: $ " + df.format(getAccounts()[i].getBalance())) + "\n");
 				}
 			}
 
@@ -242,21 +242,21 @@ public class AccountDatabase {
 			output += "Database is empty.\n";
 		} else {
 
-			output += "--Printing statements by last name--\n";
+			output += "\n--Printing statements by last name--\n";
 
 			for (int i = 0; i < getAccounts().length; i++) {
 				if (getAccounts()[i] != null) {
 
-					output += getAccounts()[i].toString() + "\n";
+					output +="\n"+ getAccounts()[i].toString();
 
 					double monthInterest = getAccounts()[i].monthlyInterest();
 
 					getAccounts()[i].setBalance(
 							getAccounts()[i].getBalance() + getAccounts()[i].monthlyInterest() - getAccounts()[i].monthlyFee());
 
-					output += (String.format("-interest: $ " + df.format(monthInterest)) + "\n");
-					output += (String.format("-fee: $ " + df.format(getAccounts()[i].monthlyFee())) + "\n");
-					output += (String.format("-new balance: $ " + df.format(getAccounts()[i].getBalance())) + "\n");
+					output += (String.format("\n-interest: $ " + df.format(monthInterest)));
+					output += (String.format("\n-fee: $ " + df.format(getAccounts()[i].monthlyFee())));
+					output += (String.format("\n-new balance: $ " + df.format(getAccounts()[i].getBalance())) + "\n");
 				}
 			}
 

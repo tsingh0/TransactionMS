@@ -18,6 +18,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -25,6 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Duration;
 import javafx.stage.Stage;
 import java.text.DecimalFormat;
 import java.util.InputMismatchException;
@@ -58,17 +61,38 @@ public class SampleController {
 	private MenuItem printLast, printAccounts;
 
 	@FXML
+	private Tooltip tooltip;
+
+	@FXML
+	void setToolTime(MouseEvent event) {
+		tooltip.setShowDelay(Duration.seconds(0));
+	}
+
+	@FXML
+	void selectText(MouseEvent event) {
+		fName.selectAll();
+		lName.selectAll();
+		month.selectAll();
+		day.selectAll();
+		year.selectAll();
+		balance.selectAll();
+		firstName.selectAll();
+		lastName.selectAll();
+		amount.selectAll();
+	}
+
+	@FXML
 	void fnameField(ActionEvent event) {
 	}
 
 	@FXML
 	String typedFname() {
-		return fName.getText();
+		return fName.getText().trim();
 	}
 
 	@FXML
 	String typedLname() {
-		return lName.getText();
+		return lName.getText().trim();
 	}
 
 	@FXML
@@ -85,6 +109,21 @@ public class SampleController {
 			return -1;
 		}
 
+	}
+
+	@FXML
+	double typedAmount() {
+		try {
+			double inputAmount = Double.parseDouble(amount.getText());
+			if (inputAmount < 0) {
+				// bad input
+				return -1;
+			}
+			return inputAmount;
+		} catch (NumberFormatException e) {
+
+			return -1;
+		}
 	}
 
 	@FXML
@@ -120,8 +159,9 @@ public class SampleController {
 	@FXML
 	// maybe adding an Alert that an account was added successfully would be helpful
 	void AccountCreator(ActionEvent event) {
-		if (typedMonth() != -1 && typedDay() != -1 && typedYear() != -1 && typedBalance() != -1) {
-			
+		if (typedMonth() != -1 && typedDay() != -1 && typedYear() != -1 && typedBalance() != -1
+				&& (typedFname().isEmpty() == false && typedLname().isEmpty() == false)) {
+
 			if (checkedCheckingAccount()) {
 				Profile setup = new Profile(typedFname(), typedLname());
 				Date date = new Date(typedMonth(), typedDay(), typedYear());
@@ -132,15 +172,16 @@ public class SampleController {
 					} else {
 						output.appendText("Account is already in the database.\n");
 					}
-					clear();
+					// clear();
 				} else {
-
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Error");
-					alert.setHeaderText("Unavailable to make an Account with data provided.");
-					alert.setContentText("Please check information provided again.");
-					alert.showAndWait();
-
+					output.appendText(
+							month.getText() + "/" + day.getText() + "/" + year.getText() + " is not a valid date!\n");
+					/*
+					 * Alert alert = new Alert(AlertType.WARNING); alert.setTitle("Error");
+					 * alert.setHeaderText("Unavailable to make an Account with data provided.");
+					 * alert.setContentText("Please check information provided again.");
+					 * alert.showAndWait();
+					 */
 				}
 
 			} else if (checkedSavingsAccount()) {
@@ -153,13 +194,16 @@ public class SampleController {
 					} else {
 						output.appendText("Account is already in the database.\n");
 					}
-					clear();
+					// clear();
 				} else {
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Error");
-					alert.setHeaderText("Unavailable to make an account with data provided.");
-					alert.setContentText("Please check information provided again.");
-					alert.showAndWait();
+					output.appendText(
+							month.getText() + "/" + day.getText() + "/" + year.getText() + " is not a valid date!\n");
+					/*
+					 * Alert alert = new Alert(AlertType.WARNING); alert.setTitle("Error");
+					 * alert.setHeaderText("Unavailable to make an account with data provided.");
+					 * alert.setContentText("Please check information provided again.");
+					 * alert.showAndWait();
+					 */
 				}
 
 			} else if (checkedMoneyMarketAccount()) {
@@ -172,30 +216,42 @@ public class SampleController {
 					} else {
 						output.appendText("Account is already in the database.\n");
 					}
-					clear();
+					// clear();
 				} else {
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Error");
-					alert.setHeaderText("Unavailable to make an account with data provided.");
-					alert.setContentText("Please check information provided again.");
-					alert.showAndWait();
+					output.appendText(
+							month.getText() + "/" + day.getText() + "/" + year.getText() + " is not a valid date!\n");
+					/*
+					 * Alert alert = new Alert(AlertType.WARNING); alert.setTitle("Error");
+					 * alert.setHeaderText("Unavailable to make an account with data provided.");
+					 * alert.setContentText("Please check information provided again.");
+					 * alert.showAndWait();
+					 */
 				}
-			}else {
+			} else {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Error");
 				alert.setHeaderText("Please select an account type.");
-				//alert.setContentText("Please enter a number.");
+				// alert.setContentText("Please enter a number.");
 				alert.showAndWait();
 			}
-		}else{
-			if(typedMonth() == -1 || typedDay() == -1 || typedYear() == -1) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Error");
-			alert.setHeaderText("Non numeric data has been entered in the Date field.");
-			alert.setContentText("Please enter a number.");
-			alert.showAndWait();
+		} else {
+			if (typedFname().isEmpty() == true || typedLname().isEmpty() == true) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Some fields are empty");
+				alert.setContentText("Please enter your first and last name");
+				alert.showAndWait();
 			}
-			if(typedBalance() == -1) {
+
+			if (typedMonth() == -1 || typedDay() == -1 || typedYear() == -1 || typedBalance() == -1) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Non numeric data has been entered in the Date field.");
+				alert.setContentText("Please enter a number.");
+				alert.showAndWait();
+			}
+
+			if (typedBalance() == -1) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Error");
 				alert.setHeaderText("Non numeric data has been entered for field Balance.");
@@ -209,28 +265,42 @@ public class SampleController {
 	// maybe adding an Alert that an account was removed successfully would be
 	// helpful
 	void AccountDeleter(ActionEvent event) {
-		Profile setup = new Profile(typedFname(), typedLname());
-		// boolean removedFromDatabase = false;
-		if (checkedCheckingAccount()) {
-			if (database.remove(new Checking(setup, 0.0, new Date(0, 0, 0), false)) == true) {
-				output.appendText("Account closed and removed from the database.\n");
-			} else {
-				output.appendText("Account does not exist.\n");
-			}
+		if (typedFname().isEmpty() != true && typedLname().isEmpty() != true) {
+			Profile setup = new Profile(typedFname(), typedLname());
+			// boolean removedFromDatabase = false;
+			if (checkedCheckingAccount()) {
+				if (database.remove(new Checking(setup, 0.0, new Date(0, 0, 0), false)) == true) {
+					output.appendText("Account closed and removed from the database.\n");
+				} else {
+					output.appendText("Account does not exist.\n");
+				}
 
-		} else if (checkedMoneyMarketAccount()) {
-			if (database.remove(new MoneyMarket(setup, 0.0, new Date(0, 0, 0), 0)) == true) {
-				output.appendText("Account closed and removed from the database.\n");
-			} else {
-				output.appendText("Account does not exist.\n");
-			}
+			} else if (checkedMoneyMarketAccount()) {
+				if (database.remove(new MoneyMarket(setup, 0.0, new Date(0, 0, 0), 0)) == true) {
+					output.appendText("Account closed and removed from the database.\n");
+				} else {
+					output.appendText("Account does not exist.\n");
+				}
 
-		} else if (checkedSavingsAccount()) {
-			if (database.remove(new Saving(setup, 0.0, new Date(0, 0, 0), false)) == true) {
-				output.appendText("Account closed and removed from the database.\n");
+			} else if (checkedSavingsAccount()) {
+				if (database.remove(new Saving(setup, 0.0, new Date(0, 0, 0), false)) == true) {
+					output.appendText("Account closed and removed from the database.\n");
+				} else {
+					output.appendText("Account does not exist.\n");
+				}
 			} else {
-				output.appendText("Account does not exist.\n");
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Please select an account type.");
+				// alert.setContentText("Please enter a number.");
+				alert.showAndWait();
 			}
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Error");
+			alert.setHeaderText("Some fields are empty");
+			alert.setContentText("Please enter your first and last name");
+			alert.showAndWait();
 		}
 		/*
 		 * if(!removedFromDatabase) { //account wasn't removed from the database Alert
@@ -243,27 +313,27 @@ public class SampleController {
 
 	@FXML
 	void importDatabaseFromFile(ActionEvent event) {
-		
+
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Source File for the Import");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
-			new ExtensionFilter("All Files", "*.*"));	
+				new ExtensionFilter("All Files", "*.*"));
 		Stage stage = new Stage();
-		//File sourceFile = fileChooser.showOpenDialog(stage);
+		// File sourceFile = fileChooser.showOpenDialog(stage);
 		try {
-		File sourceFile = fileChooser.showOpenDialog(stage);	
-		Scanner scanner = new Scanner(sourceFile);
+			File sourceFile = fileChooser.showOpenDialog(stage);
+			Scanner scanner = new Scanner(sourceFile);
 			try {
-			
-			scanner.useDelimiter("\\s*,|\\R\\s*");
-						
-			while(scanner.hasNext()) {
-				String choice = scanner.next();
-				Date dateCreated;
 
-				switch (choice) {
+				scanner.useDelimiter("\\s*,|\\R\\s*");
+
+				while (scanner.hasNext()) {
+					String choice = scanner.next();
+					Date dateCreated;
+
+					switch (choice) {
 					case "C":
-						String fname = scanner.next();					
+						String fname = scanner.next();
 						String lname = scanner.next();
 						Profile newProfile = new Profile(fname, lname);
 						double ammount = scanner.nextDouble();
@@ -272,29 +342,30 @@ public class SampleController {
 						boolean directDeposit = scanner.nextBoolean();
 
 						if (dateCreated.isValid() == false) {
-							
+
 							break;
 						} else {
-							boolean added = database.add(new Checking(newProfile, ammount, dateCreated, directDeposit));			
-							
+							boolean added = database.add(new Checking(newProfile, ammount, dateCreated, directDeposit));
+
 						}
 						break;
 
 					case "S":
 						String savingsFname = scanner.next();
-						String savingsLname = scanner.next();						
+						String savingsLname = scanner.next();
 						Profile newSavingsProfile = new Profile(savingsFname, savingsLname);
 						double savingsAmmount = scanner.nextDouble();
 						String savingsDate = scanner.next();
 						dateCreated = makeDate(savingsDate);
-						
+
 						boolean isLoyal = scanner.nextBoolean();
 						if (dateCreated.isValid() == false) {
-					
+
 							break;
 						} else {
-							boolean added = database.add(new Saving(newSavingsProfile, savingsAmmount, dateCreated, isLoyal));
-							
+							boolean added = database
+									.add(new Saving(newSavingsProfile, savingsAmmount, dateCreated, isLoyal));
+
 						}
 						break;
 					case "M":
@@ -306,39 +377,39 @@ public class SampleController {
 						dateCreated = makeDate(moneyMarketDate);
 						int withdrawals = scanner.nextInt();
 						if (dateCreated.isValid() == false) {
-					
+
 							break;
 						} else {
-							boolean added = database.add(new MoneyMarket(newMoneyMarketProfile, moneyMarketAmmount, dateCreated, withdrawals));
+							boolean added = database.add(new MoneyMarket(newMoneyMarketProfile, moneyMarketAmmount,
+									dateCreated, withdrawals));
 							scanner.nextLine();
 						}
 						break;
 					default:
-						//System.out.println("Command " + "'" + first + "" + second + "' not supported!");
+						// System.out.println("Command " + "'" + first + "" + second + "' not
+						// supported!");
 						scanner.nextLine();
 					}
-				
+
 				}
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Success");
-			alert.setHeaderText("File was successfully imported.");
-			alert.setContentText("Congratulations!");
-			alert.showAndWait();
-			scanner.close();
-		}catch(InputMismatchException e) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Success");
+				alert.setHeaderText("File was successfully imported.");
+				alert.setContentText("Congratulations!");
+				alert.showAndWait();
 				scanner.close();
-		}
-					
+			} catch (InputMismatchException e) {
+				scanner.close();
+			}
+
 		} catch (NullPointerException e) {
-			
-			//e.printStackTrace();
+
+			// e.printStackTrace();
 		} catch (FileNotFoundException e1) {
-			
-			//e1.printStackTrace();
+
+			// e1.printStackTrace();
 		}
 
-					
-		
 		// have to write code to actually read the file
 
 	}
@@ -355,28 +426,30 @@ public class SampleController {
 		try {
 			document = new FileWriter(targetFile, true);
 			Account[] accounts = database.getAccounts();
-			
-			
-			for(int i = 0; i< database.getSize(); i++) {
-				
-				if(accounts[i] instanceof Checking) {
-					Checking toWrite = (Checking)accounts[i];
-					document.write("C"+","+toWrite.getHolder().toString()+","+ toWrite.getBalance()+","+toWrite.getDateOpen()+","+toWrite.isDirectDeposit());
-					
-				}else if(accounts[i] instanceof Saving) {
+
+			for (int i = 0; i < database.getSize(); i++) {
+
+				if (accounts[i] instanceof Checking) {
+					Checking toWrite = (Checking) accounts[i];
+					document.write("C" + "," + toWrite.getHolder().toString() + "," + toWrite.getBalance() + ","
+							+ toWrite.getDateOpen() + "," + toWrite.isDirectDeposit());
+
+				} else if (accounts[i] instanceof Saving) {
 					Saving toWrite = (Saving) accounts[i];
-					document.write("S"+","+toWrite.getHolder().toString()+","+ toWrite.getBalance()+","+toWrite.getDateOpen()+","+toWrite.isLoyal());
-					
-				}else if(accounts[i] instanceof MoneyMarket) {
+					document.write("S" + "," + toWrite.getHolder().toString() + "," + toWrite.getBalance() + ","
+							+ toWrite.getDateOpen() + "," + toWrite.isLoyal());
+
+				} else if (accounts[i] instanceof MoneyMarket) {
 					MoneyMarket toWrite = (MoneyMarket) accounts[i];
-					document.write("M"+","+toWrite.getHolder().toString()+","+ toWrite.getBalance()+","+toWrite.getDateOpen()+","+toWrite.getWithdrawals());
+					document.write("M" + "," + toWrite.getHolder().toString() + "," + toWrite.getBalance() + ","
+							+ toWrite.getDateOpen() + "," + toWrite.getWithdrawals());
 				}
 				document.write("\n");
 			}
 			document.flush();
 			document.close();
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -503,72 +576,116 @@ public class SampleController {
 
 	@FXML
 	void depositMaker(ActionEvent event) {
-		Profile depositor = new Profile(firstName.getText(), lastName.getText());
-		int depositAmount = Integer.parseInt(amount.getText());
-		if (checkedCheckingAccount2()) {
-			boolean deposited = database.deposit(new Checking(depositor, 0.0, null, false), depositAmount);
-			if (deposited != true) {
-				output.appendText("Account does not exist.\n");
-			} else {
-				output.appendText(df.format(depositAmount) + " deposited to account.\n");
-			}
-		} else if (checkedSavingsAccount2()) {
-			boolean deposited = database.deposit(new Saving(depositor, 0.0, null, false), depositAmount);
-			if (deposited != true) {
-				output.appendText("Account does not exist.\n");
-			} else {
-				output.appendText(df.format(depositAmount) + " deposited to account.\n");
-			}
+		if (typedAmount() != -1 && (firstName.getText().isEmpty() != true && lastName.getText().isEmpty() != true)) {
+			Profile depositor = new Profile(firstName.getText(), lastName.getText());
+			int depositAmount = Integer.parseInt(amount.getText());
+			if (checkedCheckingAccount2()) {
+				boolean deposited = database.deposit(new Checking(depositor, 0.0, null, false), depositAmount);
+				if (deposited != true) {
+					output.appendText("Account does not exist.\n");
+				} else {
+					output.appendText(df.format(depositAmount) + " deposited to account.\n");
+				}
+			} else if (checkedSavingsAccount2()) {
+				boolean deposited = database.deposit(new Saving(depositor, 0.0, null, false), depositAmount);
+				if (deposited != true) {
+					output.appendText("Account does not exist.\n");
+				} else {
+					output.appendText(df.format(depositAmount) + " deposited to account.\n");
+				}
 
-		} else if (checkedMoneyMarketAccount2()) {
-			boolean deposited = database.deposit(new MoneyMarket(depositor, 0.0, null, 0), depositAmount);
-			if (deposited != true) {
-				output.appendText("Account does not exist.\n");
+			} else if (checkedMoneyMarketAccount2()) {
+				boolean deposited = database.deposit(new MoneyMarket(depositor, 0.0, null, 0), depositAmount);
+				if (deposited != true) {
+					output.appendText("Account does not exist.\n");
+				} else {
+					output.appendText(df.format(depositAmount) + " deposited to account.\n");
+				}
 			} else {
-				output.appendText(df.format(depositAmount) + " deposited to account.\n");
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Please select an account type.");
+				// alert.setContentText("Please enter a number.");
+				alert.showAndWait();
 			}
-
+		} else {
+			if (firstName.getText().isEmpty() == true || lastName.getText().isEmpty() == true) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Some fields are empty");
+				alert.setContentText("Please enter your first and last name");
+				alert.showAndWait();
+			}
+			if (typedAmount() == -1) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Non numeric data has been entered for field Amount.");
+				alert.setContentText("Please enter a number.");
+				alert.showAndWait();
+			}
 		}
 	}
-
 
 	@FXML
 	void withdrawalMaker(ActionEvent event) {
-		Profile withdrawler = new Profile(firstName.getText(), lastName.getText());
-		int withdrawalAmount = Integer.parseInt(amount.getText());
-		if (checkedCheckingAccount2()) {
-			int withdrawn = database.withdrawal(new Checking(withdrawler, 0.0, null, false), withdrawalAmount);
-			if (withdrawn == -1) {
-				output.appendText("Account does not exist.\n");
-			} else if (withdrawn == 1) {
-				output.appendText("Insufficient funds.\n");
-			} else {
-				output.appendText(df.format(withdrawalAmount) + " withdrawn from account.\n");
-			}
+		if (typedAmount() != -1 && firstName.getText().isEmpty() != true && lastName.getText().isEmpty() != true) {
+			Profile withdrawler = new Profile(firstName.getText(), lastName.getText());
+			int withdrawalAmount = Integer.parseInt(amount.getText());
+			if (checkedCheckingAccount2()) {
+				int withdrawn = database.withdrawal(new Checking(withdrawler, 0.0, null, false), withdrawalAmount);
+				if (withdrawn == -1) {
+					output.appendText("Account does not exist.\n");
+				} else if (withdrawn == 1) {
+					output.appendText("Insufficient funds.\n");
+				} else {
+					output.appendText(df.format(withdrawalAmount) + " withdrawn from account.\n");
+				}
 
-		} else if (checkedSavingsAccount2()) {
-			int withdrawn = database.withdrawal(new Saving(withdrawler, 0.0, null, false), withdrawalAmount);
-			if (withdrawn == -1) {
-				output.appendText("Account does not exist.\n");
-			} else if (withdrawn == 1) {
-				output.appendText("Insufficient funds.\n");
-			} else {
-				output.appendText(df.format(withdrawalAmount) + " withdrawn from account.\n");
-			}
-		} else if (checkedMoneyMarketAccount2()) {
-			int withdrawn = database.withdrawal(new MoneyMarket(withdrawler, 0.0, null, 0), withdrawalAmount);
-			if (withdrawn == -1) {
-				output.appendText("Account does not exist.\n");
-			} else if (withdrawn == 1) {
-				output.appendText("Insufficient funds.\n");
-			} else {
-				output.appendText(df.format(withdrawalAmount) + " withdrawn from account.\n");
-			}
+			} else if (checkedSavingsAccount2()) {
+				int withdrawn = database.withdrawal(new Saving(withdrawler, 0.0, null, false), withdrawalAmount);
+				if (withdrawn == -1) {
+					output.appendText("Account does not exist.\n");
+				} else if (withdrawn == 1) {
+					output.appendText("Insufficient funds.\n");
+				} else {
+					output.appendText(df.format(withdrawalAmount) + " withdrawn from account.\n");
+				}
+			} else if (checkedMoneyMarketAccount2()) {
+				int withdrawn = database.withdrawal(new MoneyMarket(withdrawler, 0.0, null, 0), withdrawalAmount);
+				if (withdrawn == -1) {
+					output.appendText("Account does not exist.\n");
+				} else if (withdrawn == 1) {
+					output.appendText("Insufficient funds.\n");
+				} else {
+					output.appendText(df.format(withdrawalAmount) + " withdrawn from account.\n");
+				}
 
+			} else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Please select an account type.");
+				// alert.setContentText("Please enter a number.");
+				alert.showAndWait();
+			}
+		} else {
+			if (firstName.getText().isEmpty() == true || lastName.getText().isEmpty() == true) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Some fields are empty");
+				alert.setContentText("Please enter your first and last name");
+				alert.showAndWait();
+			}
+			if (typedAmount() == -1) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Error");
+				alert.setHeaderText("Non numeric data has been entered for field Amount.");
+				alert.setContentText("Please enter a number.");
+				alert.showAndWait();
+			}
 		}
 
 	}
-	
+
 	/**
 	 * MakeDate method creates a date object from a string and returns it.
 	 * 
@@ -589,5 +706,9 @@ public class SampleController {
 		}
 		return dateForm;
 	}
+
+	@FXML
+	void clearTextArea(ActionEvent event) {
+		output.clear();
+	}
 }
-	
