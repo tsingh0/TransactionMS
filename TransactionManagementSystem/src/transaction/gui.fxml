@@ -47,7 +47,7 @@
                               <Label text="Last Name" GridPane.rowIndex="1" />
                               <Label text="Date Open" GridPane.rowIndex="2" />
                               <Label text="Balanace" GridPane.rowIndex="3" />
-                              <TextField fx:id="fName" onAction="#fnameField" onMouseClicked="#selectText" prefWidth="147.0" GridPane.columnIndex="1" />
+                              <TextField fx:id="fName" onMouseClicked="#selectText" prefWidth="147.0" GridPane.columnIndex="1" />
                               <TextField fx:id="lName" onAction="#typedLname" onMouseClicked="#selectText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>

@@ -38,7 +38,7 @@ public class Profile {
 	}
 
 	/**
-	 * Method thats gets the last name of the profile
+	 * Method thats gets the last name of the profile.
 	 * 
 	 * @return String Instance of the profiles last name.
 	 */
@@ -59,5 +59,13 @@ public class Profile {
 			return this.fname.equals(comparison.fname) && this.lname.equals(comparison.lname);
 		}
 		return false;
+	}
+	/**
+	 * Method that gets the first name of the profile.
+	 * 
+	 * @return String instance of the profiles first name.
+	 */
+	public String getFname() {
+		return this.fname;
 	}
 }

@@ -52,6 +52,8 @@ public abstract class Account {
 
 	/**
 	 * toString method formulates a String from the Account object
+	 * 
+	 * @return string of the Account
 	 */
 	public String toString() {
 		return (String.format("*" + this.holder.toString() + "* $" + "%,.2f" + "*" + this.dateOpen.toString(),

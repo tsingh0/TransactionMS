@@ -35,9 +35,21 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+/**
+ * SampleController Class handles the GUI functionality of the Transaction Manager.
+ * The class handles any event that is done on the GUI, as well as creates accounts,
+ * removes accounts,deposits/withdrawals to an account, imports/ exports databases,
+ * and prints the account database. Sample controller class throws alerts if there
+ * is missing data and also appends confirmation of account actions in the output text
+ * area on the bottom of the GUI.
+ * 
+ * @author Kacper Murdzek, Taranvir Singh
+ *
+ */
 public class SampleController {
 
 	DecimalFormat df = new DecimalFormat("#,###,##0.00");
+	
 	private AccountDatabase database = new AccountDatabase();
 	@FXML
 	private RadioButton checking, savings, moneyMarket, checkings2, savings2, moneyMarket2;
@@ -63,175 +75,69 @@ public class SampleController {
 	@FXML
 	private Tooltip tooltip;
 
+	/**
+	 * Creates an Account dependent on user input on ActionEvent
+	 * When a user inputs account information, AccountCreator method
+	 * takes the information and makes an account. If the information
+	 * provided is invalid, an alert window will pop up. Otherwise,
+	 * the output text area will confirm account creation.
+	 * 
+	 * @param event button click
+	 */
 	@FXML
-	void setToolTime(MouseEvent event) {
-		tooltip.setShowDelay(Duration.seconds(0));
-	}
-
-	@FXML
-	void selectText(MouseEvent event) {
-		fName.selectAll();
-		lName.selectAll();
-		month.selectAll();
-		day.selectAll();
-		year.selectAll();
-		balance.selectAll();
-		firstName.selectAll();
-		lastName.selectAll();
-		amount.selectAll();
-	}
-
-	@FXML
-	void fnameField(ActionEvent event) {
-	}
-
-	@FXML
-	String typedFname() {
-		return fName.getText().trim();
-	}
-
-	@FXML
-	String typedLname() {
-		return lName.getText().trim();
-	}
-
-	@FXML
-	double typedBalance() {
-		try {
-			double inputBalance = Double.parseDouble(balance.getText());
-			if (inputBalance < 0) {
-				// bad input
-				return -1;
-			}
-			return inputBalance;
-		} catch (NumberFormatException e) {
-
-			return -1;
-		}
-
-	}
-
-	@FXML
-	double typedAmount() {
-		try {
-			double inputAmount = Double.parseDouble(amount.getText());
-			if (inputAmount < 0) {
-				// bad input
-				return -1;
-			}
-			return inputAmount;
-		} catch (NumberFormatException e) {
-
-			return -1;
-		}
-	}
-
-	@FXML
-	int typedYear() {
-		try {
-			int inputYear = Integer.parseInt(year.getText());
-			return inputYear;
-		} catch (NumberFormatException e) {
-			return -1;
-		}
-	}
-
-	@FXML
-	int typedDay() {
-		try {
-			int inputDay = Integer.parseInt(day.getText());
-			return inputDay;
-		} catch (NumberFormatException e) {
-			return -1;
-		}
-	}
-
-	@FXML
-	int typedMonth() {
-		try {
-			int inputMonth = Integer.parseInt(month.getText());
-			return inputMonth;
-		} catch (NumberFormatException e) {
-			return -1;
-		}
-	}
-
-	@FXML
-	// maybe adding an Alert that an account was added successfully would be helpful
 	void AccountCreator(ActionEvent event) {
 		if (typedMonth() != -1 && typedDay() != -1 && typedYear() != -1 && typedBalance() != -1
 				&& (typedFname().isEmpty() == false && typedLname().isEmpty() == false)) {
-
 			if (checkedCheckingAccount()) {
 				Profile setup = new Profile(typedFname(), typedLname());
 				Date date = new Date(typedMonth(), typedDay(), typedYear());
-				if (date.isValid() && typedBalance() > 0) {
+				if (date.isValid() && typedBalance() >= 0) {
 					Checking acc = new Checking(setup, typedBalance(), date, directDepositChecked());
 					if (database.add(acc) == true) {
 						output.appendText("Account opened and added to the database\n");
 					} else {
 						output.appendText("Account is already in the database.\n");
 					}
-					// clear();
 				} else {
 					output.appendText(
 							month.getText() + "/" + day.getText() + "/" + year.getText() + " is not a valid date!\n");
-					/*
-					 * Alert alert = new Alert(AlertType.WARNING); alert.setTitle("Error");
-					 * alert.setHeaderText("Unavailable to make an Account with data provided.");
-					 * alert.setContentText("Please check information provided again.");
-					 * alert.showAndWait();
-					 */
+
 				}
 
 			} else if (checkedSavingsAccount()) {
 				Profile setup = new Profile(typedFname(), typedLname());
 				Date date = new Date(typedMonth(), typedDay(), typedYear());
-				if (date.isValid() && typedBalance() > 0) {
+				if (date.isValid() && typedBalance() >= 0) {
 					Saving acc = new Saving(setup, typedBalance(), date, loyalCustomerChecked());
 					if (database.add(acc) == true) {
 						output.appendText("Account opened and added to the database\n");
 					} else {
 						output.appendText("Account is already in the database.\n");
 					}
-					// clear();
+					
 				} else {
 					output.appendText(
 							month.getText() + "/" + day.getText() + "/" + year.getText() + " is not a valid date!\n");
-					/*
-					 * Alert alert = new Alert(AlertType.WARNING); alert.setTitle("Error");
-					 * alert.setHeaderText("Unavailable to make an account with data provided.");
-					 * alert.setContentText("Please check information provided again.");
-					 * alert.showAndWait();
-					 */
 				}
 
 			} else if (checkedMoneyMarketAccount()) {
 				Profile setup = new Profile(typedFname(), typedLname());
 				Date date = new Date(typedMonth(), typedDay(), typedYear());
-				if (date.isValid() && typedBalance() > 0) {
+				if (date.isValid() && typedBalance() >= 0) {
 					MoneyMarket acc = new MoneyMarket(setup, typedBalance(), date, 0);
 					if (database.add(acc)) {
 						output.appendText("Account opened and added to the database\n");
 					} else {
 						output.appendText("Account is already in the database.\n");
 					}
-					// clear();
 				} else {
 					output.appendText(
 							month.getText() + "/" + day.getText() + "/" + year.getText() + " is not a valid date!\n");
-					/*
-					 * Alert alert = new Alert(AlertType.WARNING); alert.setTitle("Error");
-					 * alert.setHeaderText("Unavailable to make an account with data provided.");
-					 * alert.setContentText("Please check information provided again.");
-					 * alert.showAndWait();
-					 */
 				}
 			} else {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Error");
 				alert.setHeaderText("Please select an account type.");
-				// alert.setContentText("Please enter a number.");
 				alert.showAndWait();
 			}
 		} else {
@@ -243,7 +149,7 @@ public class SampleController {
 				alert.showAndWait();
 			}
 
-			if (typedMonth() == -1 || typedDay() == -1 || typedYear() == -1 || typedBalance() == -1) {
+			if (typedMonth() == -1 || typedDay() == -1 || typedYear() == -1) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Error");
 				alert.setHeaderText("Non numeric data has been entered in the Date field.");
@@ -261,9 +167,14 @@ public class SampleController {
 		}
 	}
 
+	/**
+	 * Deletes an account dependent on the first and last name of the user as well as account type.
+	 * AccountDeleter takes the input provided by the user to delete an account, any additional
+	 * data is discarded.
+	 * 
+	 * @param event button click
+	 */
 	@FXML
-	// maybe adding an Alert that an account was removed successfully would be
-	// helpful
 	void AccountDeleter(ActionEvent event) {
 		if (typedFname().isEmpty() != true && typedLname().isEmpty() != true) {
 			Profile setup = new Profile(typedFname(), typedLname());
@@ -302,15 +213,16 @@ public class SampleController {
 			alert.setContentText("Please enter your first and last name");
 			alert.showAndWait();
 		}
-		/*
-		 * if(!removedFromDatabase) { //account wasn't removed from the database Alert
-		 * alert = new Alert(AlertType.WARNING); alert.setTitle("Error");
-		 * alert.setHeaderText("Unavailable to remove account."); alert.
-		 * setContentText("Information does not match any user in the database. Please try again"
-		 * ); alert.showAndWait(); }
-		 */
 	}
 
+	/**
+	 * Imports accounts from a ".txt" file based on user file selection.
+	 * If the input is invalid the account is not created,
+	 * otherwise accounts are properly created and stored in
+	 * the database.
+	 * 
+	 * @param event button clicked
+	 */
 	@FXML
 	void importDatabaseFromFile(ActionEvent event) {
 
@@ -319,7 +231,6 @@ public class SampleController {
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
 				new ExtensionFilter("All Files", "*.*"));
 		Stage stage = new Stage();
-		// File sourceFile = fileChooser.showOpenDialog(stage);
 		try {
 			File sourceFile = fileChooser.showOpenDialog(stage);
 			Scanner scanner = new Scanner(sourceFile);
@@ -342,11 +253,9 @@ public class SampleController {
 						boolean directDeposit = scanner.nextBoolean();
 
 						if (dateCreated.isValid() == false) {
-
 							break;
 						} else {
-							boolean added = database.add(new Checking(newProfile, ammount, dateCreated, directDeposit));
-
+							database.add(new Checking(newProfile, ammount, dateCreated, directDeposit));
 						}
 						break;
 
@@ -360,11 +269,10 @@ public class SampleController {
 
 						boolean isLoyal = scanner.nextBoolean();
 						if (dateCreated.isValid() == false) {
-
 							break;
+							
 						} else {
-							boolean added = database
-									.add(new Saving(newSavingsProfile, savingsAmmount, dateCreated, isLoyal));
+							database.add(new Saving(newSavingsProfile, savingsAmmount, dateCreated, isLoyal));
 
 						}
 						break;
@@ -377,17 +285,14 @@ public class SampleController {
 						dateCreated = makeDate(moneyMarketDate);
 						int withdrawals = scanner.nextInt();
 						if (dateCreated.isValid() == false) {
-
 							break;
 						} else {
-							boolean added = database.add(new MoneyMarket(newMoneyMarketProfile, moneyMarketAmmount,
-									dateCreated, withdrawals));
+							  database.add(new MoneyMarket(newMoneyMarketProfile, moneyMarketAmmount,dateCreated, withdrawals));
 							scanner.nextLine();
 						}
 						break;
+						
 					default:
-						// System.out.println("Command " + "'" + first + "" + second + "' not
-						// supported!");
 						scanner.nextLine();
 					}
 
@@ -404,16 +309,19 @@ public class SampleController {
 
 		} catch (NullPointerException e) {
 
-			// e.printStackTrace();
+			
 		} catch (FileNotFoundException e1) {
 
-			// e1.printStackTrace();
+			
 		}
 
-		// have to write code to actually read the file
-
 	}
-
+	/**
+	 * Exports a database to a file in the proper format based on user file designation.
+	 * Takes the accounts in the database and formats them and outputs to a .txt file.
+	 * 
+	 * @param event button clicked
+	 */
 	@FXML
 	void exportDatabaseToFile(ActionEvent event) {
 		FileChooser chooser = new FileChooser();
@@ -431,149 +339,44 @@ public class SampleController {
 
 				if (accounts[i] instanceof Checking) {
 					Checking toWrite = (Checking) accounts[i];
-					document.write("C" + "," + toWrite.getHolder().toString() + "," + toWrite.getBalance() + ","
+					document.write("C" + "," + toWrite.getHolder().getFname() +"," + toWrite.getHolder().getLname() + "," + toWrite.getBalance() + ","
 							+ toWrite.getDateOpen() + "," + toWrite.isDirectDeposit());
 
 				} else if (accounts[i] instanceof Saving) {
 					Saving toWrite = (Saving) accounts[i];
-					document.write("S" + "," + toWrite.getHolder().toString() + "," + toWrite.getBalance() + ","
+					document.write("S" + "," + toWrite.getHolder().getFname() + "," + toWrite.getHolder().getLname() + "," + toWrite.getBalance() + ","
 							+ toWrite.getDateOpen() + "," + toWrite.isLoyal());
 
 				} else if (accounts[i] instanceof MoneyMarket) {
 					MoneyMarket toWrite = (MoneyMarket) accounts[i];
-					document.write("M" + "," + toWrite.getHolder().toString() + "," + toWrite.getBalance() + ","
+					document.write("M" + "," +toWrite.getHolder().getFname() + "," + toWrite.getHolder().getLname() + "," + toWrite.getBalance() + ","
 							+ toWrite.getDateOpen() + "," + toWrite.getWithdrawals());
 				}
 				document.write("\n");
 			}
 			document.flush();
 			document.close();
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Success");
+			alert.setHeaderText("File was successfully exported.");
+			alert.setContentText("Congratulations!");
+			alert.showAndWait();
+		
 		} catch (IOException e) {
 
-			e.printStackTrace();
+		}
+		catch (NullPointerException e) {
+
 		}
 
 	}
-
-	@FXML
-	boolean checkedCheckingAccount() {
-		// when checking is checked we want to make loyalCutomer field not clickable
-		if (checking.isSelected()) {
-			return true;
-		}
-		return false;
-	}
-
-	@FXML
-	boolean checkedCheckingAccount2() {
-		// when checking is checked we want to make loyalCutomer field not clickable
-		if (checkings2.isSelected()) {
-			return true;
-		}
-		return false;
-	}
-
-	@FXML
-	boolean checkedSavingsAccount() {
-		if (savings.isSelected()) {
-			return true;
-		}
-		return false;
-	}
-
-	@FXML
-	boolean checkedSavingsAccount2() {
-		if (savings2.isSelected()) {
-			return true;
-		}
-		return false;
-	}
-
-	@FXML
-	boolean checkedMoneyMarketAccount() {
-		if (moneyMarket.isSelected()) {
-			return true;
-		}
-		return false;
-	}
-
-	@FXML
-	boolean checkedMoneyMarketAccount2() {
-		if (moneyMarket2.isSelected()) {
-			return true;
-		}
-		return false;
-	}
-
-	@FXML
-	boolean directDepositChecked() {
-		if (directDeposit.isSelected()) {
-			return true;
-		}
-		return false;
-	}
-
-	@FXML
-	boolean loyalCustomerChecked() {
-		if (loyalCustomer.isSelected()) {
-			return true;
-		}
-		return false;
-	}
-
-	@FXML
-	void checkedCheck(ActionEvent event) {
-		// when Savings is checked we want to make direct deposit not clickable
-		loyalCustomer.setDisable(true);
-		loyalCustomer.setSelected(false);
-		directDeposit.setDisable(false);
-
-	}
-
-	@FXML
-	void checkedSavings(ActionEvent event) {
-		// when Savings is checked we want to make direct deposit not clickable
-		loyalCustomer.setDisable(false);
-		directDeposit.setDisable(true);
-		directDeposit.setSelected(false);
-
-	}
-
-	@FXML
-	void checkedMoneyMarket(ActionEvent event) {
-		// when MoneyMarket is checked we want to make neither loyal customer or direct
-		// deposit clickable
-		loyalCustomer.setDisable(true);
-		loyalCustomer.setSelected(false);
-		directDeposit.setDisable(true);
-		directDeposit.setSelected(false);
-	}
-
-	@FXML
-	void clear() {
-		fName.clear();
-		lName.clear();
-		month.clear();
-		day.clear();
-		year.clear();
-		balance.clear();
-	}
-
-	@FXML
-	void printLastName(ActionEvent event) {
-		output.appendText(database.printByLastName());
-	}
-
-	@FXML
-	void printDatabase(ActionEvent event) {
-		output.appendText(database.printAccounts());
-	}
-
-	@FXML
-	void printByDate(ActionEvent event) {
-		output.appendText(database.printByDateOpen());
-	}
-
+	/**
+	 * Deposit is made to specified account based on user input.
+	 * The input provided by the user is taken and used to match
+	 * the account in the database to perform a deposit.
+	 * 
+	 * @param event button click
+	 */
 	@FXML
 	void depositMaker(ActionEvent event) {
 		if (typedAmount() != -1 && (firstName.getText().isEmpty() != true && lastName.getText().isEmpty() != true)) {
@@ -605,15 +408,14 @@ public class SampleController {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Error");
 				alert.setHeaderText("Please select an account type.");
-				// alert.setContentText("Please enter a number.");
 				alert.showAndWait();
 			}
 		} else {
 			if (firstName.getText().isEmpty() == true || lastName.getText().isEmpty() == true) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Error");
-				alert.setHeaderText("Some fields are empty");
-				alert.setContentText("Please enter your first and last name");
+				alert.setHeaderText("Fields are empty");
+				alert.setContentText("Please fill in all fields");
 				alert.showAndWait();
 			}
 			if (typedAmount() == -1) {
@@ -626,6 +428,13 @@ public class SampleController {
 		}
 	}
 
+	/**
+	 * Withdrawal is made to specified account based on user input.
+	 * The input provided by the user is taken and used to match
+	 * the account in the database to perform a withdrawal.
+	 * 
+	 * @param event button click
+	 */
 	@FXML
 	void withdrawalMaker(ActionEvent event) {
 		if (typedAmount() != -1 && firstName.getText().isEmpty() != true && lastName.getText().isEmpty() != true) {
@@ -664,7 +473,6 @@ public class SampleController {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Error");
 				alert.setHeaderText("Please select an account type.");
-				// alert.setContentText("Please enter a number.");
 				alert.showAndWait();
 			}
 		} else {
@@ -707,8 +515,326 @@ public class SampleController {
 		return dateForm;
 	}
 
+	/**
+	 * Clears the output text area on button clicked.
+	 * 
+	 * @param event button click
+	 */
 	@FXML
 	void clearTextArea(ActionEvent event) {
 		output.clear();
 	}
+	
+	/**
+	 * Checks if the checking radio button is checked on the Create/Delete Account tab.
+	 * 
+	 * @return true or false dependent on if the radio button is checked.
+	 */
+	@FXML
+	boolean checkedCheckingAccount() {
+		if (checking.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if the checking radio button is checked on the Deposit/Withdrawal tab.
+	 * 
+	 * @return true or false dependent on if the radio button is checked.
+	 */
+	@FXML
+	boolean checkedCheckingAccount2() {
+		if (checkings2.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if the savings radio button is checked on the Create/Delete Account tab.
+	 * 
+	 * @return true or false dependent on if the radio button is checked.
+	 */
+	@FXML
+	boolean checkedSavingsAccount() {
+		if (savings.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the savings radio button is checked on the Deposit/Withdrawal tab.
+	 * 
+	 * @return true or false dependent on if the radio button is checked.
+	 */
+	@FXML
+	boolean checkedSavingsAccount2() {
+		if (savings2.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if the money market radio button is checked on the Create/Delete Account tab.
+	 * 
+	 * @return true or false dependent on if the radio button is checked.
+	 */
+	@FXML
+	boolean checkedMoneyMarketAccount() {
+		if (moneyMarket.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if the money market radio button is checked on the Deposit/Withdrawal tab.
+	 * 
+	 * @return true or false dependent on if the radio button is checked.
+	 */
+	@FXML
+	boolean checkedMoneyMarketAccount2() {
+		if (moneyMarket2.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the direct deposit button is checked.
+	 * 
+	 * @return true or false dependent on if the button is checked.
+	 */
+	@FXML
+	boolean directDepositChecked() {
+		if (directDeposit.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if the loyal customer button is checked.
+	 * 
+	 * @return true or false dependent on if the button is checked.
+	 */
+	@FXML
+	boolean loyalCustomerChecked() {
+		if (loyalCustomer.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * When checking button is selected, unselects the loyal customer button and makes it not selectable.
+	 * 
+	 * @param event button clicked
+	 */
+	@FXML
+	void checkedCheck(ActionEvent event) {
+		
+		loyalCustomer.setDisable(true);
+		loyalCustomer.setSelected(false);
+		directDeposit.setDisable(false);
+
+	}
+	/**
+	 * When savings button is selected, unselects the direct deposit button and makes it not selectable.
+	 * 
+	 * @param event button clicked
+	 */
+	@FXML
+	void checkedSavings(ActionEvent event) {
+		
+		loyalCustomer.setDisable(false);
+		directDeposit.setDisable(true);
+		directDeposit.setSelected(false);
+
+	}
+	/**
+	 * When money market button is selected, unselects the direct deposit and loyal customer button and makes them not selectable.
+	 * @param event button clicked
+	 */
+	@FXML
+	void checkedMoneyMarket(ActionEvent event) {
+		loyalCustomer.setDisable(true);
+		loyalCustomer.setSelected(false);
+		directDeposit.setDisable(true);
+		directDeposit.setSelected(false);
+	}
+	
+	/**
+	 * Clears all the field on the GUI.
+	 */
+	@FXML
+	void clear() {
+		fName.clear();
+		lName.clear();
+		month.clear();
+		day.clear();
+		year.clear();
+		balance.clear();
+	}
+	/**
+	 * When print by last name option is clicked, the account database is printed to the output text area sorted by last name. 
+	 * @param event button click
+	 */
+	@FXML
+	void printLastName(ActionEvent event) {
+		output.appendText(database.printByLastName());
+	}
+
+	/**
+	 * When print database option is clicked, the account database is printed to the output text area.
+	 * 
+	 * @param event button clicked
+	 */
+	@FXML
+	void printDatabase(ActionEvent event) {
+		output.appendText(database.printAccounts());
+	}
+	/**
+	 * When print by date option is clicked, the account database is printed to the output text area sorted by date opened.
+	 * 
+	 * @param event button clicked
+	 */
+	@FXML
+	void printByDate(ActionEvent event) {
+		output.appendText(database.printByDateOpen());
+	}
+	
+	/**
+	 * Shows what the button does when mouse hovers the button.
+	 * 
+	 * @param event button hover
+	 */
+	@FXML
+	void setToolTime(MouseEvent event) {
+		tooltip.setShowDelay(Duration.seconds(0));
+	}
+	
+	/**
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void selectText(MouseEvent event) {
+		fName.selectAll();
+		lName.selectAll();
+		month.selectAll();
+		day.selectAll();
+		year.selectAll();
+		balance.selectAll();
+		firstName.selectAll();
+		lastName.selectAll();
+		amount.selectAll();
+	}
+
+	/**
+	 * Gets the String typed in the fname field.
+	 * 
+	 * @return string first name
+	 */
+	@FXML
+	String typedFname() {
+		return fName.getText().trim();
+	}
+	/**
+	 * Gets the String typed in the lname field.
+	 * 
+	 * @return string last name
+	 */
+	@FXML
+	String typedLname() {
+		return lName.getText().trim();
+	}
+	
+	/**
+	 * Gets the double typed in the balance field.
+	 * 
+	 * @return double balance or -1 if balance is invalid.
+	 */
+	@FXML
+	double typedBalance() {
+		try {
+			double inputBalance = Double.parseDouble(balance.getText());
+			if (inputBalance < 0) {
+				return -1;
+			}
+			return inputBalance;
+		} catch (NumberFormatException e) {
+
+			return -1;
+		}
+
+	}
+	
+	/**
+	 * Gets the double typed in the amount field.
+	 * 
+	 * @return double amount or -1 if the amount is invalid.
+	 */
+	@FXML
+	double typedAmount() {
+		try {
+			double inputAmount = Double.parseDouble(amount.getText());
+			if (inputAmount < 0) {
+				return -1;
+			}
+			return inputAmount;
+		} catch (NumberFormatException e) {
+
+			return -1;
+		}
+	}
+
+	/**
+	 * Gets the int year in the year field.
+	 * 
+	 * @return int year
+	 */
+	@FXML
+	int typedYear() {
+		try {
+			int inputYear = Integer.parseInt(year.getText());
+			return inputYear;
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+
+	/**
+	 * Gets the int day in the day field.
+	 * 
+	 * @return int day
+	 */
+	@FXML
+	int typedDay() {
+		try {
+			int inputDay = Integer.parseInt(day.getText());
+			return inputDay;
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+
+	/**
+	 * Gets the int month in the month field.
+	 * 
+	 * @return int month
+	 */
+	@FXML
+	int typedMonth() {
+		try {
+			int inputMonth = Integer.parseInt(month.getText());
+			return inputMonth;
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+
 }

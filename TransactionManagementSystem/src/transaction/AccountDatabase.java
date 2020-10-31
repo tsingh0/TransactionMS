@@ -291,6 +291,7 @@ public class AccountDatabase {
 	}
 	/**
 	 * Gets the amount of accounts in the AccountDatabase
+	 * 
 	 * @return int size
 	 */
 	public int getSize() {
@@ -298,6 +299,7 @@ public class AccountDatabase {
 	}
 	/**
 	 * Gets the accounts in the database
+	 * 
 	 * @return array of the accounts
 	 */
 	public Account[] getAccounts() {
