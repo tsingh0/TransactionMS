@@ -160,8 +160,7 @@ public class SampleController {
 			if (typedBalance() == -1) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Error");
-				alert.setHeaderText("Non numeric data has been entered for field Balance.");
-				alert.setContentText("Please enter a number.");
+				alert.setHeaderText("Invalid balance in field Balance.");
 				alert.showAndWait();
 			}
 		}
@@ -718,8 +717,8 @@ public class SampleController {
 	}
 	
 	/**
-	 * 
-	 * @param event
+	 * Highlights text bock that is selected
+	 * @param event textbox clicked
 	 */
 	@FXML
 	void selectText(MouseEvent event) {
