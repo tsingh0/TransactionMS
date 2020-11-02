@@ -85,7 +85,7 @@ public class Checking extends Account {
 		return "*Checking" + super.toString();
 
 	}
-	
+
 	/**
 	 * Gets the instance of the Accounts directDeposit value
 	 * 

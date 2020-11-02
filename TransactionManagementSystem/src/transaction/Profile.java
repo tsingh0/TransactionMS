@@ -60,6 +60,7 @@ public class Profile {
 		}
 		return false;
 	}
+
 	/**
 	 * Method that gets the first name of the profile.
 	 * 

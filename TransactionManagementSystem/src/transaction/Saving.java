@@ -83,7 +83,7 @@ public class Saving extends Account {
 		return "*Savings" + super.toString();
 
 	}
-	
+
 	/**
 	 * Method gets the instance of the isLoyal boolean of the account
 	 * 

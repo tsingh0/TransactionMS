@@ -62,12 +62,10 @@ public class AccountDatabase {
 
 		for (int i = 0; i < getAccounts().length; i++) {
 			if (getAccounts()[i] != null && getAccounts()[i].equals(account)) {
-				// System.out.println("Account is already in the database.");
 				return false;
 			} else if (getAccounts()[i] == null) {
 				getAccounts()[i] = account;
 				size = getSize() + 1;
-				// System.out.println("Account opened and added to the database.");
 				break;
 			}
 
@@ -208,12 +206,12 @@ public class AccountDatabase {
 			for (int i = 0; i < getAccounts().length; i++) {
 				if (getAccounts()[i] != null) {
 
-					output += "\n"+getAccounts()[i].toString();
+					output += "\n" + getAccounts()[i].toString();
 
 					double monthInterest = getAccounts()[i].monthlyInterest();
 
-					getAccounts()[i].setBalance(
-							getAccounts()[i].getBalance() + getAccounts()[i].monthlyInterest() - getAccounts()[i].monthlyFee());
+					getAccounts()[i].setBalance(getAccounts()[i].getBalance() + getAccounts()[i].monthlyInterest()
+							- getAccounts()[i].monthlyFee());
 
 					output += (String.format("\n-interest: $ " + df.format(monthInterest)));
 					output += (String.format("\n-fee: $ " + df.format(getAccounts()[i].monthlyFee())));
@@ -247,12 +245,12 @@ public class AccountDatabase {
 			for (int i = 0; i < getAccounts().length; i++) {
 				if (getAccounts()[i] != null) {
 
-					output +="\n"+ getAccounts()[i].toString();
+					output += "\n" + getAccounts()[i].toString();
 
 					double monthInterest = getAccounts()[i].monthlyInterest();
 
-					getAccounts()[i].setBalance(
-							getAccounts()[i].getBalance() + getAccounts()[i].monthlyInterest() - getAccounts()[i].monthlyFee());
+					getAccounts()[i].setBalance(getAccounts()[i].getBalance() + getAccounts()[i].monthlyInterest()
+							- getAccounts()[i].monthlyFee());
 
 					output += (String.format("\n-interest: $ " + df.format(monthInterest)));
 					output += (String.format("\n-fee: $ " + df.format(getAccounts()[i].monthlyFee())));
@@ -289,6 +287,7 @@ public class AccountDatabase {
 
 		return output;
 	}
+
 	/**
 	 * Gets the amount of accounts in the AccountDatabase
 	 * 
@@ -297,6 +296,7 @@ public class AccountDatabase {
 	public int getSize() {
 		return size;
 	}
+
 	/**
 	 * Gets the accounts in the database
 	 * 

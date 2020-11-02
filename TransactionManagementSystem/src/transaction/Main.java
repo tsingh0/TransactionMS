@@ -1,4 +1,5 @@
 package transaction;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -13,7 +14,7 @@ import javafx.fxml.FXMLLoader;
  *
  */
 public class Main extends Application {
-	
+
 	/**
 	 * Start Method starts the GUI, and sets it's characteristics.
 	 * 
@@ -21,19 +22,20 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("gui.fxml"));
-			Scene scene = new Scene(root,620,620);
+			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("gui.fxml"));
+			Scene scene = new Scene(root, 620, 620);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			primaryStage.setTitle("Transaction Manager");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		}
 	}
-	
+
 	/**
 	 * Main method launches the GUI.
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {

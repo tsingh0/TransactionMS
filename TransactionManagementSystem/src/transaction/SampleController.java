@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,17 +30,19 @@ import javafx.util.Duration;
 import javafx.stage.Stage;
 import java.text.DecimalFormat;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 /**
- * SampleController Class handles the GUI functionality of the Transaction Manager.
- * The class handles any event that is done on the GUI, as well as creates accounts,
- * removes accounts,deposits/withdrawals to an account, imports/ exports databases,
- * and prints the account database. Sample controller class throws alerts if there
- * is missing data and also appends confirmation of account actions in the output text
- * area on the bottom of the GUI.
+ * SampleController Class handles the GUI functionality of the Transaction
+ * Manager. The class handles any event that is done on the GUI, as well as
+ * creates accounts, removes accounts,deposits/withdrawals to an account,
+ * imports/ exports databases, and prints the account database. Sample
+ * controller class throws alerts if there is missing data and also appends
+ * confirmation of account actions in the output text area on the bottom of the
+ * GUI.
  * 
  * @author Kacper Murdzek, Taranvir Singh
  *
@@ -49,7 +50,7 @@ import java.util.regex.Pattern;
 public class SampleController {
 
 	DecimalFormat df = new DecimalFormat("#,###,##0.00");
-	
+
 	private AccountDatabase database = new AccountDatabase();
 	@FXML
 	private RadioButton checking, savings, moneyMarket, checkings2, savings2, moneyMarket2;
@@ -76,11 +77,10 @@ public class SampleController {
 	private Tooltip tooltip;
 
 	/**
-	 * Creates an Account dependent on user input on ActionEvent
-	 * When a user inputs account information, AccountCreator method
-	 * takes the information and makes an account. If the information
-	 * provided is invalid, an alert window will pop up. Otherwise,
-	 * the output text area will confirm account creation.
+	 * Creates an Account dependent on user input on ActionEvent When a user inputs
+	 * account information, AccountCreator method takes the information and makes an
+	 * account. If the information provided is invalid, an alert window will pop up.
+	 * Otherwise, the output text area will confirm account creation.
 	 * 
 	 * @param event button click
 	 */
@@ -114,7 +114,7 @@ public class SampleController {
 					} else {
 						output.appendText("Account is already in the database.\n");
 					}
-					
+
 				} else {
 					output.appendText(
 							month.getText() + "/" + day.getText() + "/" + year.getText() + " is not a valid date!\n");
@@ -167,9 +167,9 @@ public class SampleController {
 	}
 
 	/**
-	 * Deletes an account dependent on the first and last name of the user as well as account type.
-	 * AccountDeleter takes the input provided by the user to delete an account, any additional
-	 * data is discarded.
+	 * Deletes an account dependent on the first and last name of the user as well
+	 * as account type. AccountDeleter takes the input provided by the user to
+	 * delete an account, any additional data is discarded.
 	 * 
 	 * @param event button click
 	 */
@@ -215,10 +215,9 @@ public class SampleController {
 	}
 
 	/**
-	 * Imports accounts from a ".txt" file based on user file selection.
-	 * If the input is invalid the account is not created,
-	 * otherwise accounts are properly created and stored in
-	 * the database.
+	 * Imports accounts from a ".txt" file based on user file selection. If the
+	 * input is invalid the account is not created, otherwise accounts are properly
+	 * created and stored in the database.
 	 * 
 	 * @param event button clicked
 	 */
@@ -269,7 +268,7 @@ public class SampleController {
 						boolean isLoyal = scanner.nextBoolean();
 						if (dateCreated.isValid() == false) {
 							break;
-							
+
 						} else {
 							database.add(new Saving(newSavingsProfile, savingsAmmount, dateCreated, isLoyal));
 
@@ -286,11 +285,12 @@ public class SampleController {
 						if (dateCreated.isValid() == false) {
 							break;
 						} else {
-							  database.add(new MoneyMarket(newMoneyMarketProfile, moneyMarketAmmount,dateCreated, withdrawals));
+							database.add(new MoneyMarket(newMoneyMarketProfile, moneyMarketAmmount, dateCreated,
+									withdrawals));
 							scanner.nextLine();
 						}
 						break;
-						
+
 					default:
 						scanner.nextLine();
 					}
@@ -308,16 +308,23 @@ public class SampleController {
 
 		} catch (NullPointerException e) {
 
-			
 		} catch (FileNotFoundException e1) {
 
-			
+		} catch (NoSuchElementException e2) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Failed");
+			alert.setHeaderText("Please try a different file");
+			alert.setContentText("File is not in the correcrt format");
+			alert.showAndWait();
+
 		}
 
 	}
+
 	/**
-	 * Exports a database to a file in the proper format based on user file designation.
-	 * Takes the accounts in the database and formats them and outputs to a .txt file.
+	 * Exports a database to a file in the proper format based on user file
+	 * designation. Takes the accounts in the database and formats them and outputs
+	 * to a .txt file.
 	 * 
 	 * @param event button clicked
 	 */
@@ -338,18 +345,20 @@ public class SampleController {
 
 				if (accounts[i] instanceof Checking) {
 					Checking toWrite = (Checking) accounts[i];
-					document.write("C" + "," + toWrite.getHolder().getFname() +"," + toWrite.getHolder().getLname() + "," + toWrite.getBalance() + ","
-							+ toWrite.getDateOpen() + "," + toWrite.isDirectDeposit());
+					document.write("C" + "," + toWrite.getHolder().getFname() + "," + toWrite.getHolder().getLname()
+							+ "," + toWrite.getBalance() + "," + toWrite.getDateOpen() + ","
+							+ toWrite.isDirectDeposit());
 
 				} else if (accounts[i] instanceof Saving) {
 					Saving toWrite = (Saving) accounts[i];
-					document.write("S" + "," + toWrite.getHolder().getFname() + "," + toWrite.getHolder().getLname() + "," + toWrite.getBalance() + ","
-							+ toWrite.getDateOpen() + "," + toWrite.isLoyal());
+					document.write("S" + "," + toWrite.getHolder().getFname() + "," + toWrite.getHolder().getLname()
+							+ "," + toWrite.getBalance() + "," + toWrite.getDateOpen() + "," + toWrite.isLoyal());
 
 				} else if (accounts[i] instanceof MoneyMarket) {
 					MoneyMarket toWrite = (MoneyMarket) accounts[i];
-					document.write("M" + "," +toWrite.getHolder().getFname() + "," + toWrite.getHolder().getLname() + "," + toWrite.getBalance() + ","
-							+ toWrite.getDateOpen() + "," + toWrite.getWithdrawals());
+					document.write("M" + "," + toWrite.getHolder().getFname() + "," + toWrite.getHolder().getLname()
+							+ "," + toWrite.getBalance() + "," + toWrite.getDateOpen() + ","
+							+ toWrite.getWithdrawals());
 				}
 				document.write("\n");
 			}
@@ -360,19 +369,19 @@ public class SampleController {
 			alert.setHeaderText("File was successfully exported.");
 			alert.setContentText("Congratulations!");
 			alert.showAndWait();
-		
+
 		} catch (IOException e) {
 
-		}
-		catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 
 		}
 
 	}
+
 	/**
-	 * Deposit is made to specified account based on user input.
-	 * The input provided by the user is taken and used to match
-	 * the account in the database to perform a deposit.
+	 * Deposit is made to specified account based on user input. The input provided
+	 * by the user is taken and used to match the account in the database to perform
+	 * a deposit.
 	 * 
 	 * @param event button click
 	 */
@@ -428,9 +437,9 @@ public class SampleController {
 	}
 
 	/**
-	 * Withdrawal is made to specified account based on user input.
-	 * The input provided by the user is taken and used to match
-	 * the account in the database to perform a withdrawal.
+	 * Withdrawal is made to specified account based on user input. The input
+	 * provided by the user is taken and used to match the account in the database
+	 * to perform a withdrawal.
 	 * 
 	 * @param event button click
 	 */
@@ -523,9 +532,10 @@ public class SampleController {
 	void clearTextArea(ActionEvent event) {
 		output.clear();
 	}
-	
+
 	/**
-	 * Checks if the checking radio button is checked on the Create/Delete Account tab.
+	 * Checks if the checking radio button is checked on the Create/Delete Account
+	 * tab.
 	 * 
 	 * @return true or false dependent on if the radio button is checked.
 	 */
@@ -536,7 +546,7 @@ public class SampleController {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Checks if the checking radio button is checked on the Deposit/Withdrawal tab.
 	 * 
@@ -549,9 +559,10 @@ public class SampleController {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Checks if the savings radio button is checked on the Create/Delete Account tab.
+	 * Checks if the savings radio button is checked on the Create/Delete Account
+	 * tab.
 	 * 
 	 * @return true or false dependent on if the radio button is checked.
 	 */
@@ -575,9 +586,10 @@ public class SampleController {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Checks if the money market radio button is checked on the Create/Delete Account tab.
+	 * Checks if the money market radio button is checked on the Create/Delete
+	 * Account tab.
 	 * 
 	 * @return true or false dependent on if the radio button is checked.
 	 */
@@ -588,9 +600,10 @@ public class SampleController {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Checks if the money market radio button is checked on the Deposit/Withdrawal tab.
+	 * Checks if the money market radio button is checked on the Deposit/Withdrawal
+	 * tab.
 	 * 
 	 * @return true or false dependent on if the radio button is checked.
 	 */
@@ -614,7 +627,7 @@ public class SampleController {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Checks if the loyal customer button is checked.
 	 * 
@@ -627,35 +640,41 @@ public class SampleController {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * When checking button is selected, unselects the loyal customer button and makes it not selectable.
+	 * When checking button is selected, unselects the loyal customer button and
+	 * makes it not selectable.
 	 * 
 	 * @param event button clicked
 	 */
 	@FXML
 	void checkedCheck(ActionEvent event) {
-		
+
 		loyalCustomer.setDisable(true);
 		loyalCustomer.setSelected(false);
 		directDeposit.setDisable(false);
 
 	}
+
 	/**
-	 * When savings button is selected, unselects the direct deposit button and makes it not selectable.
+	 * When savings button is selected, unselects the direct deposit button and
+	 * makes it not selectable.
 	 * 
 	 * @param event button clicked
 	 */
 	@FXML
 	void checkedSavings(ActionEvent event) {
-		
+
 		loyalCustomer.setDisable(false);
 		directDeposit.setDisable(true);
 		directDeposit.setSelected(false);
 
 	}
+
 	/**
-	 * When money market button is selected, unselects the direct deposit and loyal customer button and makes them not selectable.
+	 * When money market button is selected, unselects the direct deposit and loyal
+	 * customer button and makes them not selectable.
+	 * 
 	 * @param event button clicked
 	 */
 	@FXML
@@ -665,7 +684,7 @@ public class SampleController {
 		directDeposit.setDisable(true);
 		directDeposit.setSelected(false);
 	}
-	
+
 	/**
 	 * Clears all the field on the GUI.
 	 */
@@ -678,8 +697,11 @@ public class SampleController {
 		year.clear();
 		balance.clear();
 	}
+
 	/**
-	 * When print by last name option is clicked, the account database is printed to the output text area sorted by last name. 
+	 * When print by last name option is clicked, the account database is printed to
+	 * the output text area sorted by last name.
+	 * 
 	 * @param event button click
 	 */
 	@FXML
@@ -688,7 +710,8 @@ public class SampleController {
 	}
 
 	/**
-	 * When print database option is clicked, the account database is printed to the output text area.
+	 * When print database option is clicked, the account database is printed to the
+	 * output text area.
 	 * 
 	 * @param event button clicked
 	 */
@@ -696,8 +719,10 @@ public class SampleController {
 	void printDatabase(ActionEvent event) {
 		output.appendText(database.printAccounts());
 	}
+
 	/**
-	 * When print by date option is clicked, the account database is printed to the output text area sorted by date opened.
+	 * When print by date option is clicked, the account database is printed to the
+	 * output text area sorted by date opened.
 	 * 
 	 * @param event button clicked
 	 */
@@ -705,7 +730,7 @@ public class SampleController {
 	void printByDate(ActionEvent event) {
 		output.appendText(database.printByDateOpen());
 	}
-	
+
 	/**
 	 * Shows what the button does when mouse hovers the button.
 	 * 
@@ -715,9 +740,10 @@ public class SampleController {
 	void setToolTime(MouseEvent event) {
 		tooltip.setShowDelay(Duration.seconds(0));
 	}
-	
+
 	/**
 	 * Highlights text bock that is selected
+	 * 
 	 * @param event textbox clicked
 	 */
 	@FXML
@@ -742,6 +768,7 @@ public class SampleController {
 	String typedFname() {
 		return fName.getText().trim();
 	}
+
 	/**
 	 * Gets the String typed in the lname field.
 	 * 
@@ -751,7 +778,7 @@ public class SampleController {
 	String typedLname() {
 		return lName.getText().trim();
 	}
-	
+
 	/**
 	 * Gets the double typed in the balance field.
 	 * 
@@ -771,7 +798,7 @@ public class SampleController {
 		}
 
 	}
-	
+
 	/**
 	 * Gets the double typed in the amount field.
 	 * 
